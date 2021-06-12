@@ -1,0 +1,4 @@
+Click==8.0.0
+colorama==0.4.4
+requests==2.25.1
+environs==9.3.2

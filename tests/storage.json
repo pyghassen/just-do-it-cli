@@ -1,0 +1,37 @@
+{
+    "1": {
+        "name": "Board 1",
+        "tasks": {
+            "1": {
+                "description": "Task 1",
+                "priority": 1,
+                "status": 1
+            },
+            "2": {
+                "description": "Task 2",
+                "priority": 2,
+                "status": 1
+            }
+        }
+    },
+    "2": {
+        "name": "Board 2",
+        "tasks": {
+            "3": {
+                "description": "Task 3",
+                "priority": 3,
+                "status": 1
+            },
+            "4": {
+                "description": "Task 4",
+                "priority": 4,
+                "status": 2
+            },
+            "5": {
+                "description": "Task 5",
+                "priority": 5,
+                "status": 3
+            }
+        }
+    }
+}
