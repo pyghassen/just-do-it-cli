@@ -6,4 +6,4 @@ codecov==2.1.11
 pytest-dotenv==0.5.2
 black==21.6b0
 isort==4.3.21
-pylint==2.5.3
+flake8==3.8.4

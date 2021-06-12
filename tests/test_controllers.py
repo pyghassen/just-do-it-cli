@@ -9,7 +9,7 @@ from app.storage import JsonStorage
 
 @pytest.mark.parametrize(
     'data,expected_id',
-    [({}, 0), ({1:{}}, 1), ({1:{}, 2: {}}, 2),({1:{}, 2:{}, 5:{}}, 5)]
+    [({}, 0), ({1: {}}, 1), ({1: {}, 2: {}}, 2),({1: {}, 2: {}, 5: {}}, 5)]
 )
 def test_board_controller_get_last_id(data, expected_id):
     mocked_storage = MagicMock()
@@ -83,18 +83,18 @@ def test_board_controller_get_board_by_id_should_return_board_from_storage():
     'data,expected_id',
     [
         (
-            {'1': {'name': 'My Board', 'tasks':{}}},
+            {'1': {'name': 'My Board', 'tasks': {}}},
             0
         ),
         (
-            {'1': {'name': 'My Board', 'tasks':{'1':{'name': 'Task 1'}}}},
+            {'1': {'name': 'My Board', 'tasks': {'1': {'name': 'Task 1'}}}},
             1
         ),
         (
             {
-                '1': {'name': 'My Board', 'tasks':{
-                    '1':{'name': 'Task 1'},
-                    '2':{'name': 'Task 2'}
+                '1': {'name': 'My Board', 'tasks': {
+                    '1': {'name': 'Task 1'},
+                    '2': {'name': 'Task 2'}
                     }
                 }
             },
@@ -102,16 +102,16 @@ def test_board_controller_get_board_by_id_should_return_board_from_storage():
         ),
         (
             {
-                '1': {'name': 'My Board', 'tasks':{'1':{'name': 'Task 1'}}},
-                '2': {'name': 'My Board', 'tasks':{'2':{'name': 'Task 2'}}}
+                '1': {'name': 'My Board', 'tasks': {'1': {'name': 'Task 1'}}},
+                '2': {'name': 'My Board', 'tasks': {'2': {'name': 'Task 2'}}}
             },
             2
         ),
         (
             {
-                '1': {'name': 'My Board', 'tasks':{
-                    '10':{'name': 'Task 1'},
-                    '20':{'name': 'Task 2'}
+                '1': {'name': 'My Board', 'tasks': {
+                    '10': {'name': 'Task 1'},
+                    '20': {'name': 'Task 2'}
                     }
                 }
             },
@@ -119,8 +119,8 @@ def test_board_controller_get_board_by_id_should_return_board_from_storage():
         ),
         (
             {
-                '1': {'name': 'My Board', 'tasks':{'10':{'name': 'Task 1'}}},
-                '2': {'name': 'My Board', 'tasks':{'15':{'name': 'Task 2'}}}
+                '1': {'name': 'My Board', 'tasks': {'10': {'name': 'Task 1'}}},
+                '2': {'name': 'My Board', 'tasks': {'15': {'name': 'Task 2'}}}
             },
             15
         )

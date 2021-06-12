@@ -21,22 +21,22 @@ from app.helpers.task_list import (
     'task_list,expected',
     [
         ({}, 0),
-        ({'1':{'status': Status.IN_PROGRESS}}, 0),
-        ({'1':{'status': Status.PENDING}}, 0),
-        ({'1':{'status': Status.DONE}}, 1),
+        ({'1': {'status': Status.IN_PROGRESS}}, 0),
+        ({'1': {'status': Status.PENDING}}, 0),
+        ({'1': {'status': Status.DONE}}, 1),
         (
             {
-                '1':{'status': Status.DONE},
-                '2':{'status': Status.IN_PROGRESS},
-                '3':{'status': Status.PENDING}
+                '1': {'status': Status.DONE},
+                '2': {'status': Status.IN_PROGRESS},
+                '3': {'status': Status.PENDING}
             },
             1
         ),
         (
             {
-                '1':{'status': Status.DONE},
-                '2':{'status': Status.IN_PROGRESS},
-                '3':{'status': Status.DONE}
+                '1': {'status': Status.DONE},
+                '2': {'status': Status.IN_PROGRESS},
+                '3': {'status': Status.DONE}
             },
             2
         ),
@@ -50,22 +50,22 @@ def test_get_number_of_done_tasks_returns_total_done_tasks(task_list, expected):
     'task_list,expected',
     [
         ({}, 0),
-        ({'1':{'status': Status.DONE}}, 0),
-        ({'1':{'status': Status.PENDING}}, 0),
-        ({'1':{'status': Status.IN_PROGRESS}}, 1),
+        ({'1': {'status': Status.DONE}}, 0),
+        ({'1': {'status': Status.PENDING}}, 0),
+        ({'1': {'status': Status.IN_PROGRESS}}, 1),
         (
             {
-                '1':{'status': Status.DONE},
-                '2':{'status': Status.IN_PROGRESS},
-                '3':{'status': Status.PENDING}
+                '1': {'status': Status.DONE},
+                '2': {'status': Status.IN_PROGRESS},
+                '3': {'status': Status.PENDING}
             },
             1
         ),
         (
             {
-                '1':{'status': Status.DONE},
-                '2':{'status': Status.IN_PROGRESS},
-                '3':{'status': Status.IN_PROGRESS}
+                '1': {'status': Status.DONE},
+                '2': {'status': Status.IN_PROGRESS},
+                '3': {'status': Status.IN_PROGRESS}
             },
             2
         ),
@@ -79,30 +79,30 @@ def test_get_number_of_tasks_in_progress_returns_total_tasks_in_progress(task_li
     'task_list,expected',
     [
         ({}, '[0/0]'),
-        ({'1':{'status': Status.PENDING}}, '[0/1]'),
-        ({'1':{'status': Status.IN_PROGRESS}}, '[0/1]'),
-        ({'1':{'status': Status.DONE}}, '[1/1]'),
+        ({'1': {'status': Status.PENDING}}, '[0/1]'),
+        ({'1': {'status': Status.IN_PROGRESS}}, '[0/1]'),
+        ({'1': {'status': Status.DONE}}, '[1/1]'),
         (
             {
-                '1':{'status': Status.DONE},
-                '2':{'status': Status.IN_PROGRESS},
-                '3':{'status': Status.PENDING}
+                '1': {'status': Status.DONE},
+                '2': {'status': Status.IN_PROGRESS},
+                '3': {'status': Status.PENDING}
             },
             '[1/3]'
         ),
         (
             {
-                '1':{'status': Status.DONE},
-                '2':{'status': Status.DONE},
-                '3':{'status': Status.IN_PROGRESS}
+                '1': {'status': Status.DONE},
+                '2': {'status': Status.DONE},
+                '3': {'status': Status.IN_PROGRESS}
             },
             '[2/3]'
         ),
         (
             {
-                '1':{'status': Status.DONE},
-                '2':{'status': Status.DONE},
-                '3':{'status': Status.DONE}
+                '1': {'status': Status.DONE},
+                '2': {'status': Status.DONE},
+                '3': {'status': Status.DONE}
             },
             '[3/3]'
         ),
@@ -117,7 +117,7 @@ def test_get_board_suffix(task_list, expected):
     [
         (
             {
-                '1':{
+                '1': {
                     'name': 'Board 1',
                     'tasks': {}
                 }
@@ -126,48 +126,48 @@ def test_get_board_suffix(task_list, expected):
         ),
         (
             {
-                '1':{
+                '1': {
                     'name': 'Board 1',
-                    'tasks': {'1':{'name': 'Task 1'}}
+                    'tasks': {'1': {'name': 'Task 1'}}
                 }
             },
-            {'1':{'name': 'Task 1'}}
+            {'1': {'name': 'Task 1'}}
         ),
         (
             {
-                '1':{
+                '1': {
                     'name': 'Board 1',
                     'tasks': {
-                        '1':{'name': 'Task 1'},
-                        '2':{'name': 'Task 2'}
+                        '1': {'name': 'Task 1'},
+                        '2': {'name': 'Task 2'}
                     }
                 }
             },
             {
-                '1':{'name': 'Task 1'},
-                '2':{'name': 'Task 2'}
+                '1': {'name': 'Task 1'},
+                '2': {'name': 'Task 2'}
             }
         ),
         (
             {
-                '1':{
+                '1': {
                     'name': 'Board 1',
                     'tasks': {
-                        '1':{'name': 'Task 1'},
-                        '2':{'name': 'Task 2'}
+                        '1': {'name': 'Task 1'},
+                        '2': {'name': 'Task 2'}
                     },
                 },
                 '2': {
                     'name': 'Board 2',
                     'tasks': {
-                        '3':{'name': 'Task 3'}
+                        '3': {'name': 'Task 3'}
                     }
                 }
             },
             {
-                '1':{'name': 'Task 1'},
-                '2':{'name': 'Task 2'},
-                '3':{'name': 'Task 3'}
+                '1': {'name': 'Task 1'},
+                '2': {'name': 'Task 2'},
+                '3': {'name': 'Task 3'}
             }
         )
     ]
