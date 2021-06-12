@@ -20,32 +20,31 @@ def cli():
 
 
 @cli.command()
-def list():  # noqa W0622
+def list():  # pylint: disable=R0914,W0622
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     data = storage.read()
     for board_id, board_data in data.items():
-        task_list = board_data['tasks']
-        board_suffix = get_board_suffix(task_list)
+        board_suffix = get_board_suffix(board_data['tasks'])
         click.echo()
         message = f'  {board_id}. {board_data["name"]} {board_suffix}'
         click.secho(message, fg='yellow', bold=True)
-        for task_id, task_data in task_list.items():
+        for task_id, task_data in board_data['tasks'].items():
             task_properties = get_task_properties(task_data['status'])
             priority_icon = PRIORIY_ICONS_MAP[task_data['priority']]
             description = task_data['description']
             message = f'\t{task_id}. {task_properties.icon} '
-            fg = task_properties.foreground_color
-            bold = task_properties.bold
-            underline = task_properties.underline
-            strikethrough = task_properties.strikethrough
             click.secho(
-                click.style(message, fg=fg, bold=bold)
+                click.style(
+                    message,
+                    fg=task_properties.foreground_color,
+                    bold=task_properties.bold
+                )
                 + click.style(
                     f'{description}',
-                    fg=fg,
-                    bold=bold,
-                    underline=underline,
-                    strikethrough=strikethrough,
+                    fg=task_properties.foreground_color,
+                    bold=task_properties.bold,
+                    underline=task_properties.underline,
+                    strikethrough=task_properties.strikethrough,
                 )
                 + click.style(f'{priority_icon}')
             )
@@ -62,8 +61,10 @@ def list():  # noqa W0622
         total_number_of_done_tasks,
         total_number_of_tasks_in_progress,
     )
-    message = f'  {done_percentage}% of all tasks complete.'
-    click.secho(message, fg='green' if done_percentage > 50 else 'red')
+    click.secho(
+        f'  {done_percentage}% of all tasks complete.',
+        fg='green' if done_percentage > 50 else 'red'
+    )
     click.secho(
         click.style(f'  {total_number_of_done_tasks} done', fg='green')
         + click.style(
@@ -195,7 +196,7 @@ def check(task_id):
 @cli.command()
 @click.argument('task_id', type=str)
 @click.argument('priority', type=str)
-def priority(task_id, priority):
+def priority(task_id, priority):  # pylint: disable=W0621
     """Set task priority from 1 to 5.
 
     1. Trivial ⛄ · 2. Minor 🌧️ · 3. Major 🌊 · 4. Critical 🔥 · 5. Blocker 🌋

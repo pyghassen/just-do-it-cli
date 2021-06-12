@@ -22,8 +22,8 @@ class BoardController:
         return last_board_id
 
     def create(self, name):
-        id = self.get_last_id() + 1
-        board = self.model(id=id, name=name)
+        _id = self.get_last_id() + 1
+        board = self.model(id=_id, name=name)
         data = self.storage.read()
         data.update(board.to_dict())
         self.storage.write(data)
@@ -52,12 +52,14 @@ class TaskController:
     @classmethod
     def get_task_by_id(cls, storage, task_id):
         data = storage.read()
+        task = None
         for board_id, board_data in data.items():
             for _task_id, task_data in board_data['tasks'].items():
                 if _task_id == task_id:
-                    return cls.model(
+                    task = cls.model(
                         id=str(task_id), board_id=board_id, **task_data
                     )
+        return task
 
     def get_last_id(self):
         last_task_id = 0
@@ -68,14 +70,14 @@ class TaskController:
         return last_task_id
 
     def create(self, board_id, description):
-        id = self.get_last_id() + 1
-        task = self.model(id=str(id), description=description)
+        _id = self.get_last_id() + 1
+        task = self.model(id=str(_id), description=description)
         data = self.storage.read()
         data[board_id]['tasks'].update(task.to_dict())
         self.storage.write(data)
         return task
 
-    def edit(self, id, description=None, status=None, priority=None):
+    def edit(self, id, description=None, status=None, priority=None):  # pylint: disable=W0622,C0103
         task = self.get_task_by_id(self.storage, id)
 
         if description is not None:
@@ -89,7 +91,7 @@ class TaskController:
         self.storage.write(data)
         return task
 
-    def delete(self, id):
+    def delete(self, id):  # pylint: disable=W0622,C0103
         task = self.get_task_by_id(self.storage, id)
         data = self.storage.read()
         data[task.board_id]['tasks'].pop(id)
