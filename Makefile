@@ -6,3 +6,6 @@ test:
 
 lint:
 	./scripts/lint.sh
+
+setup:
+	./scripts/setup.sh
