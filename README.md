@@ -22,7 +22,7 @@ By the way, if you are a terminal hater, maybe you won't stomach it.
 1. Clone the reposotiry
 
 ```
-git clone git@github.com:pyghassen/just-do-it-cli.git`
+git clone git@github.com:pyghassen/just-do-it-cli.git
 cd just-do-it-cli
 make install
 ```
