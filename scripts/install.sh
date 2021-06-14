@@ -8,3 +8,7 @@ echo "Done"
 echo "Setting up the test enviroment.."
 echo "STORAGE_FILE_PATH='tests/storage.json''" > tests/.env
 echo "Done"
+echo "Installing requirements"
+pip install -r requirements/dev.txt
+echo "Installing Just Do It CLI"
+pip install -e .
