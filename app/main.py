@@ -21,6 +21,7 @@ def cli():
 
 @cli.command()
 def list():  # pylint: disable=R0914,W0622
+    """List all boards and tasks."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     data = storage.read()
     for board_id, board_data in data.items():
