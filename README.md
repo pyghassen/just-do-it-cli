@@ -26,3 +26,29 @@ git clone git@github.com:pyghassen/just-do-it-cli.git
 cd just-do-it-cli
 make install
 ```
+
+# Usage
+
+Type the following command to get you start with help message:
+
+```
+justdoit --help
+
+Usage: justdoit [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  begin         Delete task.
+  check         Mark task as done.
+  create-board  Create Board.
+  create-task   Create Task.
+  delete-board  Delete board.
+  delete-task   Delete Task.
+  edit-board    Edit board.
+  edit-task     Edit task.
+  list          List all boards and tasks.
+  priority      Set task priority from 1 to 5.
+
+```
