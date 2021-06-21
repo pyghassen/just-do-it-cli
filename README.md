@@ -1,5 +1,6 @@
 # just-do-it-cli
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/370c20f86b514f3eb4d9ebf9714de57f)](https://app.codacy.com/gh/pyghassen/just-do-it-cli?utm_source=github.com&utm_medium=referral&utm_content=pyghassen/just-do-it-cli&utm_campaign=Badge_Grade_Settings)
 [![codecov](https://codecov.io/gh/pyghassen/just-do-it-cli/branch/master/graph/badge.svg?token=8JI1NOE6PO)](https://codecov.io/gh/pyghassen/just-do-it-cli)
 
 Just do it was created to solve some of the most common issues that us developers have to deal with.
