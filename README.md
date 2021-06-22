@@ -18,61 +18,62 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/pyghassen/just-do-it-cli?logo=github)
 ![GitHub Repo stars](https://img.shields.io/github/stars/pyghassen/just-do-it-cli?style=social)
 
-Just do it was created to solve some of the most common issues that us developers have to deal with.
+Just do it was created to solve some of the most common issues that us
+developers have to deal with.
 
-You guessed it right, this tool gonna change the fact that you have to deal with "zoom meetings", "google meet" or whatever meetings on daily basis.
+You guessed it right, this tool gonna change the fact that you have to deal with
+"zoom meetings", "google meet" or whatever meetings on daily basis.
 
 Sounds intriguing?
 
-I think a lot of people have solved that in more creative way, just check tiktok or maybe youtube if you are an old fart.
+I think a lot of people have solved that in more creative way, just check tiktok
+or maybe youtube if you are an old fart.
 
-However Just Do It CLI will help you deal with some of the annoying things like switching focus and organizing your daily tasks without the mental torture of using a corporate tool like Jira.
+However Just Do It CLI will help you deal with some of the annoying things like
+switching focus and organizing your daily tasks without the mental torture of
+using a corporate tool like Jira.
 
 How you gonna achieve that, that's a fair question, here's how it works.
-After finishing installing this tool, just create some boards to organize your daily tasks without the need leaving your terminal.
+After finishing installing this tool, just create some boards to organize your
+daily tasks without the need leaving your terminal.
 
 By the way, if you are a terminal hater, maybe you won't stomach it.
 
-# Installation
+## Installation
 
- 1. Clone the repository
+Clone the repository
 
-```
-git clone git@github.com:pyghassen/just-do-it-cli.git
-```
- 2. Go inside the cloned repository directory
+    git clone git@github.com:pyghassen/just-do-it-cli.git
 
-```
-cd just-do-it-cli
-```
- 3. Run the installation command
+Go inside the cloned repository directory
 
-```
-make install
-```
+    cd just-do-it-cli
 
-# Usage
+Run the installation command
 
-First you need to create a board and then create some tasks inside that board, you can get more help when you type the following command to get you start with help message:
+    make install
 
-```
-justdoit --help
+## Usage
 
-Usage: justdoit [OPTIONS] COMMAND [ARGS]...
+First you need to create a board and then create some tasks inside that board,
+you can get more help when you type the following command to get you start with
+help message:
 
-Options:
-  --help  Show this message and exit.
+    justdoit --help
 
-Commands:
-  begin         Delete task.
-  check         Mark task as done.
-  create-board  Create Board.
-  create-task   Create Task.
-  delete-board  Delete board.
-  delete-task   Delete Task.
-  edit-board    Edit board.
-  edit-task     Edit task.
-  list          List all boards and tasks.
-  priority      Set task priority from 1 to 5.
+    Usage: justdoit [OPTIONS] COMMAND [ARGS]...
 
-```
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      begin         Delete task.
+      check         Mark task as done.
+      create-board  Create Board.
+      create-task   Create Task.
+      delete-board  Delete board.
+      delete-task   Delete Task.
+      edit-board    Edit board.
+      edit-task     Edit task.
+      list          List all boards and tasks.
+      priority      Set task priority from 1 to 5.
