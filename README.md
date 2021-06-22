@@ -1,6 +1,22 @@
-# just-do-it-cli
+# Just Do It CLI
 
+![Created by](https://img.shields.io/badge/Created%20by-Ghassen%20Telmoudi%20%C2%A9-blue)
+![GitHub](https://img.shields.io/github/license/pyghassen/just-do-it-cli)
+
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/pyghassen/just-do-it-cli/Just%20Do%20it%20CLI?logo=github)
 [![codecov](https://codecov.io/gh/pyghassen/just-do-it-cli/branch/master/graph/badge.svg?token=8JI1NOE6PO)](https://codecov.io/gh/pyghassen/just-do-it-cli)
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8f988bfd9a184950bc3f681f6130c0e5)](https://www.codacy.com/gh/pyghassen/just-do-it-cli/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pyghassen/just-do-it-cli&amp;utm_campaign=Badge_Grade)
+[![Maintainability](https://api.codeclimate.com/v1/badges/aa5d2559a2ff5009093d/maintainability)](https://codeclimate.com/github/pyghassen/just-do-it-cli/maintainability)
+![Code Climate issues](https://img.shields.io/codeclimate/issues/pyghassen/just-do-it-cli?logo=codeclimate)
+![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/pyghassen/just-do-it-cli?logo=codeclimate)
+![Lines of code](https://img.shields.io/tokei/lines/github/pyghassen/just-do-it-cli)
+
+![GitHub issues](https://img.shields.io/github/issues-raw/pyghassen/just-do-it-cli?logo=github)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/pyghassen/just-do-it-cli?logo=github)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/pyghassen/just-do-it-cli?logo=github)
+![GitHub last commit](https://img.shields.io/github/last-commit/pyghassen/just-do-it-cli?logo=github)
+![GitHub Repo stars](https://img.shields.io/github/stars/pyghassen/just-do-it-cli?style=social)
 
 Just do it was created to solve some of the most common issues that us developers have to deal with.
 
@@ -19,17 +35,25 @@ By the way, if you are a terminal hater, maybe you won't stomach it.
 
 # Installation
 
-1. Clone the reposotiry
+ 1. Clone the repository
 
 ```
 git clone git@github.com:pyghassen/just-do-it-cli.git
+```
+ 2. Go inside the cloned repository directory
+
+```
 cd just-do-it-cli
+```
+ 3. Run the installation command
+
+```
 make install
 ```
 
 # Usage
 
-Type the following command to get you start with help message:
+First you need to create a board and then create some tasks inside that board, you can get more help when you type the following command to get you start with help message:
 
 ```
 justdoit --help
