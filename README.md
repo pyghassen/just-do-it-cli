@@ -33,46 +33,39 @@ After finishing installing this tool, just create some boards to organize your d
 
 By the way, if you are a terminal hater, maybe you won't stomach it.
 
-# Installation
+## Installation
 
- 1. Clone the repository
+Clone the repository
 
-```
-git clone git@github.com:pyghassen/just-do-it-cli.git
-```
- 2. Go inside the cloned repository directory
+    git clone git@github.com:pyghassen/just-do-it-cli.git
 
-```
-cd just-do-it-cli
-```
- 3. Run the installation command
+Go inside the cloned repository directory
 
-```
-make install
-```
+    cd just-do-it-cli
 
-# Usage
+Run the installation command
 
-First you need to create a board and then create some tasks inside that board, you can get more help when you type the following command to get you start with help message:
+    make install
 
-```
-justdoit --help
+## Usage
 
-Usage: justdoit [OPTIONS] COMMAND [ARGS]...
+First you need to create a board and then create some tasks inside that board, you can get more help when you type the following command to get you started:
 
-Options:
-  --help  Show this message and exit.
+    justdoit --help
 
-Commands:
-  begin         Delete task.
-  check         Mark task as done.
-  create-board  Create Board.
-  create-task   Create Task.
-  delete-board  Delete board.
-  delete-task   Delete Task.
-  edit-board    Edit board.
-  edit-task     Edit task.
-  list          List all boards and tasks.
-  priority      Set task priority from 1 to 5.
+    Usage: justdoit [OPTIONS] COMMAND [ARGS]...
 
-```
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      begin         Delete task.
+      check         Mark task as done.
+      create-board  Create Board.
+      create-task   Create Task.
+      delete-board  Delete board.
+      delete-task   Delete Task.
+      edit-board    Edit board.
+      edit-task     Edit task.
+      list          List all boards and tasks.
+      priority      Set task priority from 1 to 5.
