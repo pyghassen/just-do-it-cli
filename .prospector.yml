@@ -1,0 +1,45 @@
+output-format: grouped
+
+strictness: veryhigh
+doc-warnings: true
+test-warnings: false
+max-line-length: 79
+
+# ignore-paths:
+#   - docs/
+
+frosted:
+  run: false
+
+pyroma:
+  run: false
+
+dodgy:
+  run: false
+
+mccabe:
+  run: false
+
+profile-validator:
+  run: false
+
+pyflakes:
+  run: false
+
+mypy:
+  options:
+    ignore-missing-imports: true
+    follow-imports: skip
+
+pylint:
+  run: false
+
+pep8:
+  full: true
+
+pep257:
+  run: true
+  disable:
+    - D203
+    - D212
+    - D413

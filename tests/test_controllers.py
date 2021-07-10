@@ -9,7 +9,7 @@ from app.storage import JsonStorage
 
 @pytest.mark.parametrize(
     'data,expected_id',
-    [({}, 0), ({1: {}}, 1), ({1: {}, 2: {}}, 2),({1: {}, 2: {}, 5: {}}, 5)]
+    [({}, 0), ({1: {}}, 1), ({1: {}, 2: {}}, 2), ({1: {}, 2: {}, 5: {}}, 5)]
 )
 def test_board_controller_get_last_id(data, expected_id):
     mocked_storage = MagicMock()
@@ -28,8 +28,9 @@ def test_board_controller_create_should_return_board():
     mocked_storage.write.assert_called_once()
     assert board.name == board_name
 
+
 def test_board_controller_delete_should_remove_board_from_storage():
-    board_id = 1
+    board_id = '1'
     data = {
         board_id: {
             'name': 'My Board',
@@ -44,6 +45,7 @@ def test_board_controller_delete_should_remove_board_from_storage():
     board_controller.delete(board_id)
 
     assert board_id not in board_controller.storage.read()
+
 
 def test_board_controller_edit_should_update_board_name():
     board_id = '1'
@@ -61,6 +63,7 @@ def test_board_controller_edit_should_update_board_name():
     board = board_controller.edit(board_id, new_board_name)
 
     assert board.name == new_board_name
+
 
 def test_board_controller_get_board_by_id_should_return_board_from_storage():
     mocked_storage = MagicMock()
@@ -92,9 +95,10 @@ def test_board_controller_get_board_by_id_should_return_board_from_storage():
         ),
         (
             {
-                '1': {'name': 'My Board', 'tasks': {
-                    '1': {'name': 'Task 1'},
-                    '2': {'name': 'Task 2'}
+                '1': {
+                    'name': 'My Board', 'tasks': {
+                        '1': {'name': 'Task 1'},
+                        '2': {'name': 'Task 2'}
                     }
                 }
             },
@@ -109,9 +113,10 @@ def test_board_controller_get_board_by_id_should_return_board_from_storage():
         ),
         (
             {
-                '1': {'name': 'My Board', 'tasks': {
-                    '10': {'name': 'Task 1'},
-                    '20': {'name': 'Task 2'}
+                '1': {
+                    'name': 'My Board', 'tasks': {
+                        '10': {'name': 'Task 1'},
+                        '20': {'name': 'Task 2'}
                     }
                 }
             },
@@ -126,7 +131,7 @@ def test_board_controller_get_board_by_id_should_return_board_from_storage():
         )
     ]
 )
-def test_board_controller_get_last_id(data, expected_id):
+def test_task_controller_get_last_id(data, expected_id):
     mocked_storage = MagicMock()
     mocked_storage.read.return_value = data
     task_controller = TaskController(storage=mocked_storage)
@@ -156,6 +161,7 @@ def test_task_controller_create_should_return_task():
             for board_data in task_controller.storage.read().values()
         ]
     )
+
 
 def test_task_controller_get_task_by_id_should_return_board_from_storage():
     mocked_storage = MagicMock()
@@ -203,6 +209,7 @@ def test_task_controller_edit_should_update_task_description():
     task = task_controller.edit(task_id, new_task_description)
 
     assert task.description == new_task_description
+
 
 def test_task_controller_delete_should_remove_task_from_storage():
     task_id = '1'
