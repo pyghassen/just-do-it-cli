@@ -1,8 +1,9 @@
+"""The main module contains all the commands for justdoit."""
 import click
 
 from app.config import PRIORIY_ICONS_MAP, STORAGE_FILE_PATH, Status
 from app.controllers import BoardController, TaskController
-from app.helpers.task_list import (
+from app.helpers import (
     get_board_suffix,
     get_done_percentage,
     get_number_of_done_tasks,
@@ -16,7 +17,7 @@ from app.storage import JsonStorage
 
 @click.group()
 def cli():
-    pass
+    """Create function which will hold all the commands in the same group."""
 
 
 @cli.command()
@@ -85,7 +86,7 @@ def list():  # pylint: disable=R0914,W0622
 
 @cli.command()
 @click.argument('name', type=str)
-def create_board(name):
+def create_board(name: str):
     """Create Board."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     board_controller = BoardController(storage)
@@ -97,7 +98,7 @@ def create_board(name):
 @cli.command()
 @click.argument('board_id', type=str)
 @click.argument('Name', type=str)
-def edit_board(board_id, name):
+def edit_board(board_id: str, name: str):
     """Edit board."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     board_controller = BoardController(storage)
@@ -110,7 +111,7 @@ def edit_board(board_id, name):
 
 @cli.command()
 @click.argument('board_id', type=str)
-def delete_board(board_id):
+def delete_board(board_id: str):
     """Delete board."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     board_controller = BoardController(storage)
@@ -123,11 +124,12 @@ def delete_board(board_id):
 @cli.command()
 @click.argument('board-id', type=str)
 @click.argument('description', type=str)
-def create_task(board_id, description):
+def create_task(board_id: str, description: str):
     """
     Create Task.
 
     Example:
+    -------
         justdoit create-task BOARD_ID "TASK DESCRIPTION"
 
     Sample:
@@ -143,7 +145,7 @@ def create_task(board_id, description):
 @cli.command()
 @click.argument('task_id', type=str)
 @click.argument('description', type=str)
-def edit_task(task_id, description):
+def edit_task(task_id: str, description: str):
     """Edit task."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     task = TaskController.get_task_by_id(storage, task_id)
@@ -159,7 +161,7 @@ def edit_task(task_id, description):
 
 @cli.command()
 @click.argument('task_id', type=str)
-def delete_task(task_id):
+def delete_task(task_id: str):
     """Delete Task."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     task = TaskController.get_task_by_id(storage, task_id)
@@ -172,8 +174,8 @@ def delete_task(task_id):
 
 @cli.command()
 @click.argument('task_id', type=str)
-def begin(task_id):
-    """Delete task."""
+def begin(task_id: str):
+    """Begin task."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     task = TaskController.get_task_by_id(storage, task_id)
     task_controller = TaskController(storage)
@@ -184,7 +186,7 @@ def begin(task_id):
 
 @cli.command()
 @click.argument('task_id', type=str)
-def check(task_id):
+def check(task_id: str):
     """Mark task as done."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     task = TaskController.get_task_by_id(storage, task_id)
@@ -197,12 +199,14 @@ def check(task_id):
 @cli.command()
 @click.argument('task_id', type=str)
 @click.argument('priority', type=str)
-def priority(task_id, priority):  # pylint: disable=W0621
-    """Set task priority from 1 to 5.
+def priority(task_id: str, priority: str):  # pylint: disable=W0621
+    """
+    Set task priority from 1 to 5.
 
     1. Trivial ⛄ · 2. Minor 🌧️ · 3. Major 🌊 · 4. Critical 🔥 · 5. Blocker 🌋
 
     Example:
+    -------
         justdoit priority TASK_ID PRIORIY
 
     Sample:

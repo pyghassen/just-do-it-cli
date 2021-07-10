@@ -6,7 +6,7 @@ from app.config import (
     PendingTaskProperties,
     Status
 )
-from app.helpers.task_list import (
+from app.helpers import (
     get_board_suffix,
     get_done_percentage,
     get_number_of_done_tasks,
