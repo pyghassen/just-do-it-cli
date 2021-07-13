@@ -7,7 +7,14 @@ from app.storage import JsonStorage
 
 def setup_function(function):
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
-    storage.write({})
+    storage.write(
+        {
+            'boards':{},
+            'tasks_index': {},
+            'last_board_id': None,
+            'last_task_id': None
+        }
+    )
 
 
 def test_create_board_command():

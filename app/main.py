@@ -25,7 +25,7 @@ def list():  # pylint: disable=R0914,W0622
     """List all boards and tasks."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     data = storage.read()
-    for board_id, board_data in data.items():
+    for board_id, board_data in data['boards'].items():
         board_suffix = get_board_suffix(board_data['tasks'])
         click.echo()
         message = f'  {board_id}. {board_data["name"]} {board_suffix}'
@@ -51,7 +51,7 @@ def list():  # pylint: disable=R0914,W0622
                 + click.style(f'{priority_icon}')
             )
     click.echo()
-    tasks = get_tasks(data)
+    tasks = get_tasks(data['boards'])
     total_number_of_tasks = len(tasks)
     total_number_of_done_tasks = get_number_of_done_tasks(tasks)
     total_number_of_tasks_in_progress = get_number_of_tasks_in_progress(tasks)

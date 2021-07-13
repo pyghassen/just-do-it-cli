@@ -6,18 +6,22 @@ from app.models import Board, Task
 @pytest.fixture
 def storage_data():
     return {
-        '1': {
-            'name': 'Coding',
-            'tasks': {
-                '1': {
-                    'description': 'Create justdoit push command to sync local data with the API',
-                    'priority': 4,
-                    'board': '1',
-                    'status': 3
+        'boards':{
+            '1': {
+                'name': 'Coding',
+                'tasks': {
+                    '1': {
+                        'description': (
+                            'Create justdoit push command to sync local data '
+                            'with the API'
+                        ),
+                        'priority': 4,
+                        'board': '1',
+                        'status': 3
+                    }
                 }
             }
         }
-
     }
 
 

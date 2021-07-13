@@ -18,7 +18,7 @@ from app.helpers import (
 
 
 @pytest.mark.parametrize(
-    'task_list,expected',
+    'tasks,expected',
     [
         ({}, 0),
         ({'1': {'status': Status.IN_PROGRESS}}, 0),
@@ -42,12 +42,12 @@ from app.helpers import (
         ),
     ]
 )
-def test_get_number_of_done_tasks_returns_total_done_tasks(task_list, expected):
-    assert get_number_of_done_tasks(task_list) == expected
+def test_get_number_of_done_tasks_returns_total_done_tasks(tasks, expected):
+    assert get_number_of_done_tasks(tasks) == expected
 
 
 @pytest.mark.parametrize(
-    'task_list,expected',
+    'tasks,expected',
     [
         ({}, 0),
         ({'1': {'status': Status.DONE}}, 0),
@@ -71,12 +71,12 @@ def test_get_number_of_done_tasks_returns_total_done_tasks(task_list, expected):
         ),
     ]
 )
-def test_get_number_of_tasks_in_progress_returns_total_tasks_in_progress(task_list, expected):
-    assert get_number_of_tasks_in_progress(task_list) == expected
+def test_get_number_of_tasks_in_progress_returns_total_tasks_in_progress(tasks, expected):
+    assert get_number_of_tasks_in_progress(tasks) == expected
 
 
 @pytest.mark.parametrize(
-    'task_list,expected',
+    'tasks,expected',
     [
         ({}, '[0/0]'),
         ({'1': {'status': Status.PENDING}}, '[0/1]'),
@@ -108,8 +108,8 @@ def test_get_number_of_tasks_in_progress_returns_total_tasks_in_progress(task_li
         ),
     ]
 )
-def test_get_board_suffix(task_list, expected):
-    assert get_board_suffix(task_list) == expected
+def test_get_board_suffix(tasks, expected):
+    assert get_board_suffix(tasks) == expected
 
 
 @pytest.mark.parametrize(
@@ -155,7 +155,7 @@ def test_get_board_suffix(task_list, expected):
                     'tasks': {
                         '1': {'name': 'Task 1'},
                         '2': {'name': 'Task 2'}
-                    },
+                    }
                 },
                 '2': {
                     'name': 'Board 2',

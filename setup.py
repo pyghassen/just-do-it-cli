@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='just-do-it-cli',
-    version='0.1.1',
+    version='0.1.2',
     author='Ghassen Telmoudi',
     author_email='ghassen.telmoudi@gmail.com',
     py_modules=['just_do_it_cli'],

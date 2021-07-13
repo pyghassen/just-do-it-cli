@@ -36,8 +36,6 @@ class Board:  # pylint: disable=R0903
 class Task:  # pylint: disable=R0903
     """Task model class."""
 
-    board_id = None
-
     def __init__(  # pylint: disable=R0913
             self,
             id: str = None,  # pylint: disable=W0622
