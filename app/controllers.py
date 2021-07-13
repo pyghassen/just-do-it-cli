@@ -37,21 +37,7 @@ class BoardController:
             A board model instance.
         """
         data = storage.read()
-        return cls.model(id=board_id, **data[str(board_id)])
-
-    def get_last_id(self):
-        """
-        Go through all the board IDs and return the last id.
-
-        Returns
-        -------
-            Last board id as an integer.
-        """
-        last_board_id = 0
-        for board_id in self.storage.read():
-            if last_board_id < int(board_id):
-                last_board_id = int(board_id)
-        return last_board_id
+        return cls.model(id=board_id, **data['boards'][str(board_id)])
 
     def create(self, name: str) -> Any:
         """
@@ -68,10 +54,14 @@ class BoardController:
         -------
             A board model instance.
         """
-        _id = self.get_last_id() + 1
-        board = self.model(id=_id, name=name)
         data = self.storage.read()
-        data.update(board.to_dict())
+        if data['last_board_id'] is not None:
+            new_id = data['last_board_id'] + 1
+        else:
+            new_id = 1
+        board = self.model(id=str(new_id), name=name)
+        data['boards'].update(board.to_dict())
+        data['last_board_id'] = new_id
         self.storage.write(data)
         return board
 
@@ -94,7 +84,7 @@ class BoardController:
         board = self.get_board_by_id(self.storage, board_id)
         board.name = name
         data = self.storage.read()
-        data.update(board.to_dict())
+        data['boards'].update(board.to_dict())
         self.storage.write(data)
         return board
 
@@ -109,7 +99,7 @@ class BoardController:
             board_id (str): The board ID.
         """
         data = self.storage.read()
-        del data[board_id]
+        del data['boards'][board_id]
         self.storage.write(data)
 
 
@@ -145,31 +135,12 @@ class TaskController:
             A task model instance.
         """
         data = storage.read()
-        task = None
-        for board_id, board_data in data.items():
-            for _task_id, task_data in board_data['tasks'].items():
-                if _task_id == task_id:
-                    task = cls.model(
-                        id=task_id, board_id=board_id, **task_data
-                    )
+        board_id = data['tasks_index'][task_id]
+        task_data = data['boards'][board_id]['tasks'][task_id]
+        task = cls.model(
+            id=task_id, board_id=board_id, **task_data
+        )
         return task
-
-    def get_last_id(self) -> int:
-        """
-        Get last task ID.
-
-        Go through all the task IDs and return the last id.
-
-        Returns
-        -------
-            Last task id as an integer.
-        """
-        last_task_id = 0
-        for board_data in self.storage.read().values():
-            for task_id in board_data['tasks']:
-                if last_task_id < int(task_id):
-                    last_task_id = int(task_id)
-        return last_task_id
 
     def create(self, board_id: str, description: str) -> Any:
         """
@@ -187,10 +158,15 @@ class TaskController:
         -------
             A task model instance.
         """
-        _id = self.get_last_id() + 1
-        task = self.model(id=str(_id), description=description)
         data = self.storage.read()
-        data[board_id]['tasks'].update(task.to_dict())
+        if data['last_task_id'] is not None:
+            new_id = data['last_task_id'] + 1
+        else:
+            new_id = 1
+        data['last_task_id'] = new_id
+        task = self.model(id=str(new_id), description=description)
+        data['boards'][board_id]['tasks'].update(task.to_dict())
+        data['tasks_index'].update({str(new_id): board_id})
         self.storage.write(data)
         return task
 
@@ -230,7 +206,7 @@ class TaskController:
         else:
             task.priority = priority
         data = self.storage.read()
-        data[task.board_id]['tasks'].update(task.to_dict())
+        data['boards'][task.board_id]['tasks'].update(task.to_dict())
         self.storage.write(data)
         return task
 
@@ -244,7 +220,7 @@ class TaskController:
         ----
             task_id (str): The task ID.
         """
-        task = self.get_task_by_id(self.storage, task_id)
         data = self.storage.read()
-        del data[task.board_id]['tasks'][task_id]
+        board_id = data['tasks_index'][task_id]
+        del data['boards'][board_id]['tasks'][task_id]
         self.storage.write(data)

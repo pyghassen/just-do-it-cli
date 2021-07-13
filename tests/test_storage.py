@@ -9,7 +9,7 @@ from app.storage import JsonStorage
 
 @pytest.fixture
 def data():
-    return {'1': {'name': 'My Board'}}
+    return {'boards':{'1': {'name': 'My Board'}}}
 
 
 @pytest.fixture
@@ -26,7 +26,7 @@ def test_should_read_from_json_file_and_return_dict(file_path, data):
 
 
 def test_should_write_to_json_file_and_return(file_path):
-    data = {'1': {'name': 'My Board'}, '2': {'name': 'Meetings'}}
+    data = {'boards': {'1': {'name': 'My Board'}, '2': {'name': 'Meetings'}}}
     storage = JsonStorage(file_path=file_path)
     storage.write(data)
     assert storage.read() == data
