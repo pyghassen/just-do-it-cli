@@ -19,7 +19,7 @@ else
 fi
 echo "STORAGE_FILE_PATH='$STORAGE_FILE_PATH'" > "$ENV_FILE_PATH"
 FIXTURES='{"boards":{}, "tasks_index": {}, "last_board_id": null, "last_task_id": null}'
-echo $FIXTURES > "$STORAGE_FILE_PATH"
+echo $FIXTURES > $STORAGE_FILE_PATH
 echo "Installing requirements"
 python3 -m pip install -r $REQUIREMENT_FILE_PATH
 echo "Installing Just Do It CLI"

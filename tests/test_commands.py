@@ -5,11 +5,11 @@ from app.main import cli
 from app.storage import JsonStorage
 
 
-def setup_function(function):
+def setup_function(function):  # pylint: disable=W0613
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     storage.write(
         {
-            'boards':{},
+            'boards': {},
             'tasks_index': {},
             'last_board_id': None,
             'last_task_id': None
@@ -67,6 +67,7 @@ def test_delete_board_command():
 
     assert result.exit_code == 0
     assert result.output == expected_output
+
 
 def test_create_task_command():
     board_name = 'My Board'
@@ -214,78 +215,60 @@ def test_priority_command():
 
 
 def test_list_command():
-    board_name_1 = 'Board 1'
-    board_name_2 = 'Board 2'
+
     runner = CliRunner()
     result = runner.invoke(
         cli,
-        ['create-board', board_name_1]
+        ['create-board', 'Board 1']
     )
     result = runner.invoke(
         cli,
-        ['create-board', board_name_2]
-    )
-    board_1_id = '1'
-    board_2_id = '2'
-    description_1 = 'Task 1'
-    description_2 = 'Task 2'
-    description_3 = 'Task 3'
-    description_4 = 'Task 4'
-    description_5 = 'Task 5'
-    result = runner.invoke(
-        cli,
-        ['create-task', board_1_id, description_1]
+        ['create-board', 'Board 2']
     )
     result = runner.invoke(
         cli,
-        ['create-task', board_1_id, description_2]
+        ['create-task', '1', 'Task 1']
     )
     result = runner.invoke(
         cli,
-        ['create-task', board_2_id, description_3]
+        ['create-task', '1', 'Task 2']
     )
     result = runner.invoke(
         cli,
-        ['create-task', board_2_id, description_4]
+        ['create-task', '2', 'Task 3']
     )
     result = runner.invoke(
         cli,
-        ['create-task', board_2_id, description_5]
+        ['create-task', '2', 'Task 4']
+    )
+    result = runner.invoke(
+        cli,
+        ['create-task', '2', 'Task 5']
     )
 
-    task_1_id = '1'
-    task_2_id = '2'
-    task_3_id = '3'
-    task_4_id = '4'
-    task_5_id = '5'
-
     result = runner.invoke(
         cli,
-        ['begin', task_4_id]
+        ['begin', '4']
     )
     result = runner.invoke(
         cli,
-        ['check', task_5_id]
-    )
-    priority_1 = '1'
-    priority_2 = '2'
-    priority_3 = '4'
-    priority_4 = '5'
-    result = runner.invoke(
-        cli,
-        ['priority', task_1_id, priority_1]
+        ['check', '5']
     )
     result = runner.invoke(
         cli,
-        ['priority', task_2_id, priority_2]
+        ['priority', '1', '1']
     )
     result = runner.invoke(
         cli,
-        ['priority', task_4_id, priority_3]
+        ['priority', '2', '2']
     )
     result = runner.invoke(
         cli,
-        ['priority', task_5_id, priority_4]
+        ['priority', '4', '4']
+    )
+    result = runner.invoke(
+        cli,
+        ['priority', '5', '5']
     )
 
     result = runner.invoke(

@@ -71,7 +71,10 @@ def test_get_number_of_done_tasks_returns_total_done_tasks(tasks, expected):
         ),
     ]
 )
-def test_get_number_of_tasks_in_progress_returns_total_tasks_in_progress(tasks, expected):
+def test_get_number_of_tasks_in_progress_returns_the_correct_number(
+        tasks,
+        expected
+    ):
     assert get_number_of_tasks_in_progress(tasks) == expected
 
 
@@ -188,12 +191,23 @@ def test_get_tasks(data, expected):
         (10, 10, 100),
     ]
 )
-def test_get_done_percentage(total_number_of_done_tasks, total_number_of_tasks, expected):
-    assert get_done_percentage(total_number_of_done_tasks, total_number_of_tasks) == expected
+def test_get_done_percentage_should_return_the_correct_percentage(
+        total_number_of_done_tasks,
+        total_number_of_tasks,
+        expected
+    ):
+    assert (
+        get_done_percentage(
+            total_number_of_done_tasks,
+            total_number_of_tasks
+        )
+        == expected
+    )
 
 
 @pytest.mark.parametrize(
-    'total_number_of_tasks,total_number_of_done_tasks,total_number_of_tasks_in_progress,expected',
+    'total_number_of_tasks,total_number_of_done_tasks,'
+    'total_number_of_tasks_in_progress,expected',
     [
         (0, 0, 0, 0),
         (10, 10, 0, 0),
@@ -204,7 +218,12 @@ def test_get_done_percentage(total_number_of_done_tasks, total_number_of_tasks, 
         (10, 0, 0, 10),
     ]
 )
-def test_get_total_number_of_pending_tasks(total_number_of_tasks, total_number_of_done_tasks, total_number_of_tasks_in_progress, expected):
+def test_get_total_number_of_pending_tasks(
+        total_number_of_tasks,
+        total_number_of_done_tasks,
+        total_number_of_tasks_in_progress,
+        expected
+    ):
     assert (
         get_total_number_of_pending_tasks(
             total_number_of_tasks,
@@ -212,6 +231,7 @@ def test_get_total_number_of_pending_tasks(total_number_of_tasks, total_number_o
             total_number_of_tasks_in_progress
         ) == expected
     )
+
 
 @pytest.mark.parametrize(
     'status,expected',
