@@ -17,6 +17,55 @@ def test_board_controller_create_should_return_board():
     assert board.name == board_name
 
 
+@pytest.mark.parametrize(
+    'data,board_id',
+    [
+        (
+            {
+                'boards': {},
+                'last_board_id': None,
+            },
+            '1'
+        ),
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {}
+                    }
+                },
+                'last_board_id': 1,
+            },
+            '2'
+        ),
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {}
+                    },
+                    '2': {
+                        'name': 'Meetings',
+                        'tasks': {}
+                    }
+                },
+                'last_board_id': 2,
+            },
+            '3'
+        )
+    ]
+)
+def test_board_controller_create_should_assign_the_correct_id(data, board_id):
+    mocked_storage = MagicMock()
+    mocked_storage.read.return_value = data
+    board_controller = BoardController(storage=mocked_storage)
+    board = board_controller.create(name='My Board')
+
+    assert board.id == board_id
+
+
 def test_board_controller_delete_should_remove_board_from_storage():
     board_id = '1'
     data = {
@@ -34,7 +83,73 @@ def test_board_controller_delete_should_remove_board_from_storage():
     board_controller = BoardController(storage=storage)
     board_controller.delete(board_id)
 
-    assert board_id not in board_controller.storage.read()
+    assert board_id not in board_controller.storage.read()['boards']
+
+
+@pytest.mark.parametrize(
+    'data,board_id,last_board_id',
+    [
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {}
+                    }
+                },
+                'last_board_id': 1,
+            },
+            '1',
+            None
+        ),
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {}
+                    },
+                    '2': {
+                        'name': 'Meetings',
+                        'tasks': {}
+                    }
+                },
+                'last_board_id': 2,
+            },
+            '1',
+            2
+        ),
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {}
+                    },
+                    '2': {
+                        'name': 'Meetings',
+                        'tasks': {}
+                    }
+                },
+                'last_board_id': 2,
+            },
+            '2',
+            1
+        )
+    ]
+)
+def test_board_controller_delete_should_update_last_board_id_value(
+        data,
+        board_id,
+        last_board_id
+    ):
+    with NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        storage = JsonStorage(file_path=temp_file.name)
+    storage.write(data)
+    board_controller = BoardController(storage=storage)
+    board_controller.delete(board_id)
+
+    assert last_board_id == board_controller.storage.read()['last_board_id']
 
 
 def test_board_controller_edit_should_update_board_name():
@@ -98,10 +213,10 @@ def test_task_controller_create_should_return_task():
 
     assert task.description == task_description
     assert any(
-        [
+        (
             task.id in board_data['tasks']
             for board_data in task_controller.storage.read()['boards'].values()
-        ]
+        )
     )
 
 
@@ -193,9 +308,181 @@ def test_task_controller_delete_should_remove_task_from_storage():
     task_controller.delete(task_id)
 
     assert not any(
-        [
+        (
             task_id in board_data['tasks']
             for board_data in task_controller.storage.read()['boards'].values()
-        ]
+        )
+    )
+
+
+@pytest.mark.parametrize(
+    'data,task_id_to_delete,expected_last_task_id',
+    [
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {
+                            '1': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            }
+                        }
+                    }
+                },
+                'last_task_id': 1,
+                'tasks_index': {'1': '1'}
+            },
+            '1',
+            None
+        ),
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {
+                            '1': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            },
+                            '2': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            }
+                        }
+                    },
+                    '2': {
+                        'name': 'Meetings',
+                        'tasks': {}
+                    }
+                },
+                'last_task_id': 2,
+                'tasks_index': {'1': '1', '2': '2'}
+            },
+            '1',
+            2
+        ),
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {
+                            '1': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            },
+                            '2': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            }
+                        }
+                    },
+                    '2': {
+                        'name': 'Meetings',
+                        'tasks': {}
+                    }
+                },
+                'last_task_id': 2,
+                'tasks_index': {'1': '1', '2': '1'}
+            },
+            '2',
+            1
+        ),
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {
+                            '1': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            },
+                            '3': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            }
+                        }
+                    },
+                    '2': {
+                        'name': 'Meetings',
+                        'tasks': {
+                            '2': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            }
+                        }
+                    }
+                },
+                'last_task_id': 3,
+                'tasks_index': {'1': '1', '2': '2', '3': '1'}
+            },
+            '2',
+            3
+        ),
+        (
+            {
+                'boards': {
+                    '1': {
+                        'name': 'Coding',
+                        'tasks': {
+                            '1': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            },
+                            '3': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            }
+                        }
+                    },
+                    '2': {
+                        'name': 'Meetings',
+                        'tasks': {
+                            '2': {
+                                'description': 'Task 1',
+                                'priority': 5,
+                                'status': 1
+                            }
+                        }
+                    }
+                },
+                'last_task_id': 3,
+                'tasks_index': {'1': '1', '2': '2', '3': '1'}
+            },
+            '3',
+            2
+        ),
+    ]
+)
+def test_task_delete_should_delete_it_from_index_and_update_last_task_id_value(
+        data,
+        task_id_to_delete,
+        expected_last_task_id
+    ):
+    with NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        storage = JsonStorage(file_path=temp_file.name)
+    storage.write(data)
+    task_controller = TaskController(storage=storage)
+    task_controller.delete(task_id_to_delete)
+
+    assert (
+        expected_last_task_id == task_controller.storage.read()['last_task_id']
+    )
+    assert (
+        task_id_to_delete not in task_controller.storage.read()['tasks_index']
     )
     # TODO: Remove all the temp files.

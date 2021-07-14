@@ -1,6 +1,7 @@
 """The controllers module contains the board and task controllers classes."""
 from typing import Any
 
+from app.helpers import get_tasks
 from app.models import Board, Task
 
 
@@ -100,6 +101,7 @@ class BoardController:
         """
         data = self.storage.read()
         del data['boards'][board_id]
+        data['last_board_id'] = int(sorted(data['boards'].keys())[-1]) if data['boards'] else None
         self.storage.write(data)
 
 
@@ -223,4 +225,7 @@ class TaskController:
         data = self.storage.read()
         board_id = data['tasks_index'][task_id]
         del data['boards'][board_id]['tasks'][task_id]
+        tasks = get_tasks(data['boards'])
+        data['last_task_id'] = int(sorted(tasks.keys())[-1]) if tasks else None
+        del data['tasks_index'][task_id]
         self.storage.write(data)
