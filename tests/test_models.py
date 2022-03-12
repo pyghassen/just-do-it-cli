@@ -1,6 +1,6 @@
 import pytest
 
-from app.models import Board, Task
+from just_do_it_cli.models import Board, Task
 
 
 @pytest.fixture

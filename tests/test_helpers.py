@@ -1,12 +1,12 @@
 import pytest
 
-from app.config import (
+from just_do_it_cli.config import (
     DoneTaskProperties,
     InProgressTaskProperties,
     PendingTaskProperties,
     Status
 )
-from app.helpers import (
+from just_do_it_cli.helpers import (
     get_board_suffix,
     get_done_percentage,
     get_number_of_done_tasks,

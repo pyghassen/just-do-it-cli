@@ -3,8 +3,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from app.controllers import BoardController, TaskController
-from app.storage import JsonStorage
+from just_do_it_cli.controllers import BoardController, TaskController
+from just_do_it_cli.storage import JsonStorage
 
 
 def test_board_controller_create_should_return_board():
@@ -24,6 +24,10 @@ def test_board_controller_create_should_return_board():
             {
                 'boards': {},
                 'last_board_id': None,
+                "boards_index": {},
+                "tasks_index": {},
+                "last_board_id": None,
+                "last_task_id": None,
             },
             '1'
         ),
@@ -35,7 +39,10 @@ def test_board_controller_create_should_return_board():
                         'tasks': {}
                     }
                 },
+                "boards_index": {},
+                "tasks_index": {},
                 'last_board_id': 1,
+                "last_task_id": None,
             },
             '2'
         ),
@@ -51,7 +58,10 @@ def test_board_controller_create_should_return_board():
                         'tasks': {}
                     }
                 },
+                "boards_index": {},
+                "tasks_index": {},
                 'last_board_id': 2,
+                "last_task_id": None,
             },
             '3'
         )
@@ -240,8 +250,9 @@ def test_task_controller_get_task_by_id_should_return_board_from_storage():
         },
         'last_board_id': int(board_id),
         'last_task_id': int(task_id),
-        'tasks_index': {task_id: board_id}
+        'tasks_index': {task_id: {"board_id": board_id}}
     }
+
     task = TaskController.get_task_by_id(
         mocked_storage, task_id
     )
@@ -268,7 +279,7 @@ def test_task_controller_edit_should_update_task_description():
         },
         'last_board_id': int(board_id),
         'last_task_id': int(task_id),
-        'tasks_index': {task_id: board_id}
+        'tasks_index': {task_id: {"board_id": board_id}}
     }
     with NamedTemporaryFile(mode='w', delete=False) as temp_file:
         storage = JsonStorage(file_path=temp_file.name)
@@ -299,7 +310,7 @@ def test_task_controller_delete_should_remove_task_from_storage():
         },
         'last_board_id': int(board_id),
         'last_task_id': int(task_id),
-        'tasks_index': {task_id: board_id}
+        'tasks_index': {task_id: {"board_id": board_id}}
     }
     with NamedTemporaryFile(mode='w', delete=False) as temp_file:
         storage = JsonStorage(file_path=temp_file.name)
@@ -333,7 +344,7 @@ def test_task_controller_delete_should_remove_task_from_storage():
                     }
                 },
                 'last_task_id': 1,
-                'tasks_index': {'1': '1'}
+                'tasks_index': {'1': {'board_id': '1'}}
             },
             '1',
             None
@@ -362,7 +373,7 @@ def test_task_controller_delete_should_remove_task_from_storage():
                     }
                 },
                 'last_task_id': 2,
-                'tasks_index': {'1': '1', '2': '2'}
+                'tasks_index': {'1': {'board_id': '1'}, '2': {'board_id': '1'}}
             },
             '1',
             2
@@ -391,7 +402,7 @@ def test_task_controller_delete_should_remove_task_from_storage():
                     }
                 },
                 'last_task_id': 2,
-                'tasks_index': {'1': '1', '2': '1'}
+                'tasks_index': {'1': {'board_id': '1'}, '2': {'board_id': '1'}}
             },
             '2',
             1
@@ -426,7 +437,11 @@ def test_task_controller_delete_should_remove_task_from_storage():
                     }
                 },
                 'last_task_id': 3,
-                'tasks_index': {'1': '1', '2': '2', '3': '1'}
+                'tasks_index': {
+                    '1': {'board_id': '1'},
+                    '2': {'board_id': '2'},
+                    '3': {'board_id': '1'}
+                }
             },
             '2',
             3
@@ -461,7 +476,11 @@ def test_task_controller_delete_should_remove_task_from_storage():
                     }
                 },
                 'last_task_id': 3,
-                'tasks_index': {'1': '1', '2': '2', '3': '1'}
+                'tasks_index': {
+                    '1': {'board_id': '1'},
+                    '2': {'board_id': '2'},
+                    '3': {'board_id': '1'}
+                }
             },
             '3',
             2

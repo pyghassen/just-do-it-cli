@@ -1,9 +1,10 @@
 """The main module contains all the commands for justdoit."""
 import click
 
-from app.config import PRIORIY_ICONS_MAP, STORAGE_FILE_PATH, Status
-from app.controllers import BoardController, TaskController
-from app.helpers import (
+from just_do_it_cli.config import PRIORIY_ICONS_MAP, STORAGE_FILE_PATH, Status
+from just_do_it_cli.controllers import BoardController, TaskController
+from just_do_it_cli.helpers import (
+    # APIClient,
     get_board_suffix,
     get_done_percentage,
     get_number_of_done_tasks,
@@ -12,15 +13,15 @@ from app.helpers import (
     get_tasks,
     get_total_number_of_pending_tasks,
 )
-from app.storage import JsonStorage
+from just_do_it_cli.storage import JsonStorage
 
 
 @click.group()
-def cli():
+def main():
     """Create function which will hold all the commands in the same group."""
 
 
-@cli.command()
+@main.command()
 def list():  # pylint: disable=R0914,W0622
     """List all boards and tasks."""
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
@@ -39,7 +40,7 @@ def list():  # pylint: disable=R0914,W0622
                 click.style(
                     message,
                     fg=task_properties.foreground_color,
-                    bold=task_properties.bold
+                    bold=task_properties.bold,
                 )
                 + click.style(
                     f'{description}',
@@ -65,7 +66,7 @@ def list():  # pylint: disable=R0914,W0622
     )
     click.secho(
         f'  {done_percentage}% of all tasks complete.',
-        fg='green' if done_percentage > 50 else 'red'
+        fg='green' if done_percentage > 50 else 'red',
     )
     click.secho(
         click.style(f'  {total_number_of_done_tasks} done', fg='green')
@@ -84,7 +85,7 @@ def list():  # pylint: disable=R0914,W0622
     click.echo()
 
 
-@cli.command()
+@main.command()
 @click.argument('name', type=str)
 def create_board(name: str):
     """Create Board."""
@@ -95,7 +96,7 @@ def create_board(name: str):
     click.secho(message, bold=True, fg='green')
 
 
-@cli.command()
+@main.command()
 @click.argument('board_id', type=str)
 @click.argument('Name', type=str)
 def edit_board(board_id: str, name: str):
@@ -109,7 +110,7 @@ def edit_board(board_id: str, name: str):
     click.secho(message, bold=True, fg='green')
 
 
-@cli.command()
+@main.command()
 @click.argument('board_id', type=str)
 def delete_board(board_id: str):
     """Delete board."""
@@ -121,7 +122,7 @@ def delete_board(board_id: str):
     click.secho(message, bold=True, fg='green')
 
 
-@cli.command()
+@main.command()
 @click.argument('board-id', type=str)
 @click.argument('description', type=str)
 def create_task(board_id: str, description: str):
@@ -142,7 +143,7 @@ def create_task(board_id: str, description: str):
     click.secho(message, bold=True, fg='green')
 
 
-@cli.command()
+@main.command()
 @click.argument('task_id', type=str)
 @click.argument('description', type=str)
 def edit_task(task_id: str, description: str):
@@ -159,7 +160,7 @@ def edit_task(task_id: str, description: str):
     click.secho(message, bold=True, fg='green')
 
 
-@cli.command()
+@main.command()
 @click.argument('task_id', type=str)
 def delete_task(task_id: str):
     """Delete Task."""
@@ -172,7 +173,7 @@ def delete_task(task_id: str):
     click.secho(message, bold=True, fg='green')
 
 
-@cli.command()
+@main.command()
 @click.argument('task_id', type=str)
 def begin(task_id: str):
     """Begin task."""
@@ -184,7 +185,7 @@ def begin(task_id: str):
     click.secho(message, bold=True, fg='green')
 
 
-@cli.command()
+@main.command()
 @click.argument('task_id', type=str)
 def check(task_id: str):
     """Mark task as done."""
@@ -196,7 +197,7 @@ def check(task_id: str):
     click.secho(message, bold=True, fg='green')
 
 
-@cli.command()
+@main.command()
 @click.argument('task_id', type=str)
 @click.argument('priority', type=str)
 def priority(task_id: str, priority: str):  # pylint: disable=W0621
