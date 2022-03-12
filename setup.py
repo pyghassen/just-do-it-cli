@@ -14,13 +14,16 @@ test_requirements = [
 setup(
     author="Ghassen Telmoudi",
     author_email='ghassen.telmoudi@gmail.com',
-    python_requires='>=3.8',
+    python_requires='>=3.7',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
     description="JustDoIt is a tool which help you organize your tasks in different boards.",
     entry_points={
