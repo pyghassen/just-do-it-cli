@@ -1,8 +1,8 @@
 """The controllers module contains the board and task controllers classes."""
 from typing import Any
 
-from app.helpers import get_tasks
-from app.models import Board, Task
+from just_do_it_cli.helpers import get_tasks
+from just_do_it_cli.models import Board, Task
 
 
 class BoardController:
@@ -63,6 +63,7 @@ class BoardController:
         board = self.model(id=str(new_id), name=name)
         data['boards'].update(board.to_dict())
         data['last_board_id'] = new_id
+        data['boards_index'].update({str(new_id): {'external_id': None}})
         self.storage.write(data)
         return board
 
@@ -101,7 +102,9 @@ class BoardController:
         """
         data = self.storage.read()
         del data['boards'][board_id]
-        data['last_board_id'] = int(sorted(data['boards'].keys())[-1]) if data['boards'] else None
+        data['last_board_id'] = (
+            int(sorted(data['boards'].keys())[-1]) if data['boards'] else None
+        )
         self.storage.write(data)
 
 
@@ -137,11 +140,9 @@ class TaskController:
             A task model instance.
         """
         data = storage.read()
-        board_id = data['tasks_index'][task_id]
+        board_id = data['tasks_index'][task_id]['board_id']
         task_data = data['boards'][board_id]['tasks'][task_id]
-        task = cls.model(
-            id=task_id, board_id=board_id, **task_data
-        )
+        task = cls.model(id=task_id, board_id=board_id, **task_data)
         return task
 
     def create(self, board_id: str, description: str) -> Any:
@@ -168,17 +169,19 @@ class TaskController:
         data['last_task_id'] = new_id
         task = self.model(id=str(new_id), description=description)
         data['boards'][board_id]['tasks'].update(task.to_dict())
-        data['tasks_index'].update({str(new_id): board_id})
+        data['tasks_index'].update(
+            {str(new_id): {'board_id': board_id, 'external_id': None}}
+        )
         self.storage.write(data)
         return task
 
     def edit(
-            self,
-            task_id: str,
-            description: str = None,
-            status: int = None,
-            priority: int = None
-        ) -> Any:  # pylint: disable=W0622,C0103
+        self,
+        task_id: str,
+        description: str = None,
+        status: int = None,
+        priority: int = None,
+    ) -> Any:  # pylint: disable=W0622,C0103
         """
         Take description or status or priority then return the updated task.
 
@@ -222,9 +225,9 @@ class TaskController:
         ----
             task_id (str): The task ID.
         """
+        task = self.get_task_by_id(self.storage, task_id)
         data = self.storage.read()
-        board_id = data['tasks_index'][task_id]
-        del data['boards'][board_id]['tasks'][task_id]
+        del data['boards'][task.board_id]['tasks'][task_id]
         tasks = get_tasks(data['boards'])
         data['last_task_id'] = int(sorted(tasks.keys())[-1]) if tasks else None
         del data['tasks_index'][task_id]

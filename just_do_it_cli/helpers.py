@@ -6,7 +6,7 @@ These functions are needed to display all the boards and the tasks when
 """
 from typing import Any
 
-from app.config import (
+from just_do_it_cli.config import (
     DoneTaskProperties,
     InProgressTaskProperties,
     PendingTaskProperties,
@@ -100,9 +100,8 @@ def get_tasks(boards: dict) -> dict:
 
 
 def get_done_percentage(
-        total_number_of_done_tasks: int,
-        total_number_of_tasks: int
-    ) -> int:
+    total_number_of_done_tasks: int, total_number_of_tasks: int
+) -> int:
     """
     Get the percentange of done tasks among all the tasks.
 
@@ -126,10 +125,10 @@ def get_done_percentage(
 
 
 def get_total_number_of_pending_tasks(
-        total_number_of_tasks: int,
-        total_number_of_done_tasks: int,
-        total_number_of_tasks_in_progress: int,
-    ) -> int:
+    total_number_of_tasks: int,
+    total_number_of_done_tasks: int,
+    total_number_of_tasks_in_progress: int,
+) -> int:
     """
     Get total number of the pending tasks.
 

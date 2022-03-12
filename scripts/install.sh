@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 echo "Setting up Just Do It CLI .."
 if [ "$ENV" = "CI" ]
@@ -14,7 +14,7 @@ else
       mkdir "$JUST_DO_IT_DIRECTORY"
     fi
     STORAGE_FILE_PATH=$JUST_DO_IT_DIRECTORY/storage.json
-    ENV_FILE_PATH=app/.env
+    ENV_FILE_PATH=just_do_it_cli/.env
     REQUIREMENT_FILE_PATH=requirements/common.txt
 fi
 echo "STORAGE_FILE_PATH='$STORAGE_FILE_PATH'" > "$ENV_FILE_PATH"
@@ -23,5 +23,9 @@ echo $FIXTURES > $STORAGE_FILE_PATH
 echo "Installing requirements"
 python3 -m pip install -r $REQUIREMENT_FILE_PATH
 echo "Installing Just Do It CLI"
-python3 -m pip install -e .
-echo "Installtion is done, please type 'justdoit --help' to start"
+echo "#Added by Just DO It CLI" >> ~/.bashrc
+echo "export PATH=\$PATH:~/.local/bin"  >> ~/.bashrc
+source ~/.bashrc
+python3 -m pip install .
+echo "Before you start you need to run 'source ~/.bashrc' so ~/.local/bin' is added to the system path."
+echo "Installtion is done now, please type 'justdoit --help' to start, but "

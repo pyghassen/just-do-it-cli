@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile
 
 import pytest
 
-from app.storage import JsonStorage
+from just_do_it_cli.storage import JsonStorage
 
 
 @pytest.fixture

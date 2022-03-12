@@ -1,18 +1,18 @@
 """The models module contains the Board and the Task classes."""
 from typing import Dict
 
-from app.config import Status
+from just_do_it_cli.config import Status
 
 
 class Board:  # pylint: disable=R0903
     """Board model class."""
 
     def __init__(
-            self,
-            id: str = None,  # pylint: disable=W0622
-            name: str = None,
-            tasks: dict = None
-        ) -> None:  # pylint: disable=W0622
+        self,
+        id: str = None,  # pylint: disable=W0622
+        name: str = None,
+        tasks: dict = None,
+    ) -> None:  # pylint: disable=W0622
         """
         Board model constructor.
 
@@ -37,13 +37,13 @@ class Task:  # pylint: disable=R0903
     """Task model class."""
 
     def __init__(  # pylint: disable=R0913
-            self,
-            id: str = None,  # pylint: disable=W0622
-            description: str = None,
-            status: int = Status.PENDING,
-            priority: int = 3,
-            board_id: str = None
-        ) -> None:
+        self,
+        id: str = None,  # pylint: disable=W0622
+        description: str = None,
+        status: int = Status.PENDING,
+        priority: int = 3,
+        board_id: str = None,
+    ) -> None:
         """
         Task model constructor.
 
