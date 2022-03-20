@@ -4,7 +4,7 @@ from just_do_it_cli.config import (
     DoneTaskProperties,
     InProgressTaskProperties,
     PendingTaskProperties,
-    Status
+    Status,
 )
 from just_do_it_cli.helpers import (
     get_board_suffix,
@@ -13,7 +13,7 @@ from just_do_it_cli.helpers import (
     get_number_of_tasks_in_progress,
     get_task_properties,
     get_tasks,
-    get_total_number_of_pending_tasks
+    get_total_number_of_pending_tasks,
 )
 
 
@@ -28,19 +28,19 @@ from just_do_it_cli.helpers import (
             {
                 '1': {'status': Status.DONE},
                 '2': {'status': Status.IN_PROGRESS},
-                '3': {'status': Status.PENDING}
+                '3': {'status': Status.PENDING},
             },
-            1
+            1,
         ),
         (
             {
                 '1': {'status': Status.DONE},
                 '2': {'status': Status.IN_PROGRESS},
-                '3': {'status': Status.DONE}
+                '3': {'status': Status.DONE},
             },
-            2
+            2,
         ),
-    ]
+    ],
 )
 def test_get_number_of_done_tasks_returns_total_done_tasks(tasks, expected):
     assert get_number_of_done_tasks(tasks) == expected
@@ -57,24 +57,23 @@ def test_get_number_of_done_tasks_returns_total_done_tasks(tasks, expected):
             {
                 '1': {'status': Status.DONE},
                 '2': {'status': Status.IN_PROGRESS},
-                '3': {'status': Status.PENDING}
+                '3': {'status': Status.PENDING},
             },
-            1
+            1,
         ),
         (
             {
                 '1': {'status': Status.DONE},
                 '2': {'status': Status.IN_PROGRESS},
-                '3': {'status': Status.IN_PROGRESS}
+                '3': {'status': Status.IN_PROGRESS},
             },
-            2
+            2,
         ),
-    ]
+    ],
 )
 def test_get_number_of_tasks_in_progress_returns_the_correct_number(
-        tasks,
-        expected
-    ):
+    tasks, expected
+):
     assert get_number_of_tasks_in_progress(tasks) == expected
 
 
@@ -89,27 +88,27 @@ def test_get_number_of_tasks_in_progress_returns_the_correct_number(
             {
                 '1': {'status': Status.DONE},
                 '2': {'status': Status.IN_PROGRESS},
-                '3': {'status': Status.PENDING}
+                '3': {'status': Status.PENDING},
             },
-            '[1/3]'
+            '[1/3]',
         ),
         (
             {
                 '1': {'status': Status.DONE},
                 '2': {'status': Status.DONE},
-                '3': {'status': Status.IN_PROGRESS}
+                '3': {'status': Status.IN_PROGRESS},
             },
-            '[2/3]'
+            '[2/3]',
         ),
         (
             {
                 '1': {'status': Status.DONE},
                 '2': {'status': Status.DONE},
-                '3': {'status': Status.DONE}
+                '3': {'status': Status.DONE},
             },
-            '[3/3]'
+            '[3/3]',
         ),
-    ]
+    ],
 )
 def test_get_board_suffix(tasks, expected):
     assert get_board_suffix(tasks) == expected
@@ -118,62 +117,35 @@ def test_get_board_suffix(tasks, expected):
 @pytest.mark.parametrize(
     'data,expected',
     [
+        ({'1': {'name': 'Board 1', 'tasks': {}}}, {}),
         (
-            {
-                '1': {
-                    'name': 'Board 1',
-                    'tasks': {}
-                }
-            },
-            {}
+            {'1': {'name': 'Board 1', 'tasks': {'1': {'name': 'Task 1'}}}},
+            {'1': {'name': 'Task 1'}},
         ),
         (
             {
                 '1': {
                     'name': 'Board 1',
-                    'tasks': {'1': {'name': 'Task 1'}}
+                    'tasks': {'1': {'name': 'Task 1'}, '2': {'name': 'Task 2'}},
                 }
             },
-            {'1': {'name': 'Task 1'}}
+            {'1': {'name': 'Task 1'}, '2': {'name': 'Task 2'}},
         ),
         (
             {
                 '1': {
                     'name': 'Board 1',
-                    'tasks': {
-                        '1': {'name': 'Task 1'},
-                        '2': {'name': 'Task 2'}
-                    }
-                }
-            },
-            {
-                '1': {'name': 'Task 1'},
-                '2': {'name': 'Task 2'}
-            }
-        ),
-        (
-            {
-                '1': {
-                    'name': 'Board 1',
-                    'tasks': {
-                        '1': {'name': 'Task 1'},
-                        '2': {'name': 'Task 2'}
-                    }
+                    'tasks': {'1': {'name': 'Task 1'}, '2': {'name': 'Task 2'}},
                 },
-                '2': {
-                    'name': 'Board 2',
-                    'tasks': {
-                        '3': {'name': 'Task 3'}
-                    }
-                }
+                '2': {'name': 'Board 2', 'tasks': {'3': {'name': 'Task 3'}}},
             },
             {
                 '1': {'name': 'Task 1'},
                 '2': {'name': 'Task 2'},
-                '3': {'name': 'Task 3'}
-            }
-        )
-    ]
+                '3': {'name': 'Task 3'},
+            },
+        ),
+    ],
 )
 def test_get_tasks(data, expected):
     assert get_tasks(data) == expected
@@ -189,18 +161,13 @@ def test_get_tasks(data, expected):
         (4, 6, 67),
         (7, 10, 70),
         (10, 10, 100),
-    ]
+    ],
 )
 def test_get_done_percentage_should_return_the_correct_percentage(
-        total_number_of_done_tasks,
-        total_number_of_tasks,
-        expected
-    ):
+    total_number_of_done_tasks, total_number_of_tasks, expected
+):
     assert (
-        get_done_percentage(
-            total_number_of_done_tasks,
-            total_number_of_tasks
-        )
+        get_done_percentage(total_number_of_done_tasks, total_number_of_tasks)
         == expected
     )
 
@@ -216,20 +183,21 @@ def test_get_done_percentage_should_return_the_correct_percentage(
         (10, 5, 0, 5),
         (10, 0, 5, 5),
         (10, 0, 0, 10),
-    ]
+    ],
 )
 def test_get_total_number_of_pending_tasks(
-        total_number_of_tasks,
-        total_number_of_done_tasks,
-        total_number_of_tasks_in_progress,
-        expected
-    ):
+    total_number_of_tasks,
+    total_number_of_done_tasks,
+    total_number_of_tasks_in_progress,
+    expected,
+):
     assert (
         get_total_number_of_pending_tasks(
             total_number_of_tasks,
             total_number_of_done_tasks,
-            total_number_of_tasks_in_progress
-        ) == expected
+            total_number_of_tasks_in_progress,
+        )
+        == expected
     )
 
 
@@ -239,7 +207,7 @@ def test_get_total_number_of_pending_tasks(
         (Status.PENDING, PendingTaskProperties),
         (Status.IN_PROGRESS, InProgressTaskProperties),
         (Status.DONE, DoneTaskProperties),
-    ]
+    ],
 )
 def test_get_task_properties(status, expected):
     assert get_task_properties(status) == expected

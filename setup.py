@@ -8,7 +8,7 @@ requirements = ['Click==8.0.0', 'colorama==0.4.4', 'environs==9.3.2']
 test_requirements = [
     'pytest==6.2.4',
     'pytest-cov==2.12.0',
-    'pytest-dotenv==0.5.2'
+    'pytest-dotenv==0.5.2',
 ]
 
 setup(
@@ -26,11 +26,7 @@ setup(
         'Programming Language :: Python :: 3.9',
     ],
     description="JustDoIt is a tool which help you organize your tasks in different boards.",
-    entry_points={
-        'console_scripts': [
-            'justdoit=just_do_it_cli.cli:main',
-        ],
-    },
+    entry_points={'console_scripts': ['justdoit=just_do_it_cli.cli:main']},
     install_requires=requirements,
     license="MIT license",
     package_data={'': ['.env']},
@@ -41,6 +37,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/pyghassen/just_do_it_cli',
-    version='0.1.3',
+    version='0.1.4',
     zip_safe=False,
 )

@@ -6,12 +6,7 @@ These functions are needed to display all the boards and the tasks when
 """
 from typing import Any
 
-from just_do_it_cli.config import (
-    DoneTaskProperties,
-    InProgressTaskProperties,
-    PendingTaskProperties,
-    Status,
-)
+from just_do_it_cli.config import Status, STATUS_TASK_PROPERTIES_MAP
 
 
 def get_number_of_done_tasks(tasks) -> int:
@@ -166,12 +161,6 @@ def get_task_properties(status: int) -> Any:
 
     Returns
     -------
-        An integer which represents the total number of the pending tasks.
+        Task properties class.
     """
-    if status == Status.PENDING:
-        status_properties = PendingTaskProperties
-    elif status == Status.IN_PROGRESS:
-        status_properties = InProgressTaskProperties
-    else:
-        status_properties = DoneTaskProperties
-    return status_properties
+    return STATUS_TASK_PROPERTIES_MAP[status]

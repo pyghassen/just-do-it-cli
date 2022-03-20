@@ -4,6 +4,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from just_do_it_cli.controllers import BoardController, TaskController
+from just_do_it_cli.exceptions import ValidationError
 from just_do_it_cli.storage import JsonStorage
 
 
@@ -29,43 +30,32 @@ def test_board_controller_create_should_return_board():
                 "last_board_id": None,
                 "last_task_id": None,
             },
-            '1'
+            '1',
         ),
         (
             {
-                'boards': {
-                    '1': {
-                        'name': 'Coding',
-                        'tasks': {}
-                    }
-                },
+                'boards': {'1': {'name': 'Coding', 'tasks': {}}},
                 "boards_index": {},
                 "tasks_index": {},
                 'last_board_id': 1,
                 "last_task_id": None,
             },
-            '2'
+            '2',
         ),
         (
             {
                 'boards': {
-                    '1': {
-                        'name': 'Coding',
-                        'tasks': {}
-                    },
-                    '2': {
-                        'name': 'Meetings',
-                        'tasks': {}
-                    }
+                    '1': {'name': 'Coding', 'tasks': {}},
+                    '2': {'name': 'Meetings', 'tasks': {}},
                 },
                 "boards_index": {},
                 "tasks_index": {},
                 'last_board_id': 2,
                 "last_task_id": None,
             },
-            '3'
-        )
-    ]
+            '3',
+        ),
+    ],
 )
 def test_board_controller_create_should_assign_the_correct_id(data, board_id):
     mocked_storage = MagicMock()
@@ -78,15 +68,7 @@ def test_board_controller_create_should_assign_the_correct_id(data, board_id):
 
 def test_board_controller_delete_should_remove_board_from_storage():
     board_id = '1'
-    data = {
-        'boards': {
-            board_id: {
-                'name': 'My Board',
-                'id': None,
-                'tasks': {}
-            }
-        }
-    }
+    data = {'boards': {board_id: {'name': 'My Board', 'id': None, 'tasks': {}}}}
     with NamedTemporaryFile(mode='w', delete=False) as temp_file:
         storage = JsonStorage(file_path=temp_file.name)
     storage.write(data)
@@ -101,58 +83,39 @@ def test_board_controller_delete_should_remove_board_from_storage():
     [
         (
             {
-                'boards': {
-                    '1': {
-                        'name': 'Coding',
-                        'tasks': {}
-                    }
-                },
+                'boards': {'1': {'name': 'Coding', 'tasks': {}}},
                 'last_board_id': 1,
             },
             '1',
-            None
+            None,
         ),
         (
             {
                 'boards': {
-                    '1': {
-                        'name': 'Coding',
-                        'tasks': {}
-                    },
-                    '2': {
-                        'name': 'Meetings',
-                        'tasks': {}
-                    }
+                    '1': {'name': 'Coding', 'tasks': {}},
+                    '2': {'name': 'Meetings', 'tasks': {}},
                 },
                 'last_board_id': 2,
             },
             '1',
-            2
+            2,
         ),
         (
             {
                 'boards': {
-                    '1': {
-                        'name': 'Coding',
-                        'tasks': {}
-                    },
-                    '2': {
-                        'name': 'Meetings',
-                        'tasks': {}
-                    }
+                    '1': {'name': 'Coding', 'tasks': {}},
+                    '2': {'name': 'Meetings', 'tasks': {}},
                 },
                 'last_board_id': 2,
             },
             '2',
-            1
-        )
-    ]
+            1,
+        ),
+    ],
 )
 def test_board_controller_delete_should_update_last_board_id_value(
-        data,
-        board_id,
-        last_board_id
-    ):
+    data, board_id, last_board_id
+):
     with NamedTemporaryFile(mode='w', delete=False) as temp_file:
         storage = JsonStorage(file_path=temp_file.name)
     storage.write(data)
@@ -165,14 +128,7 @@ def test_board_controller_delete_should_update_last_board_id_value(
 def test_board_controller_edit_should_update_board_name():
     board_id = '1'
     new_board_name = 'My Meetings'
-    data = {
-        'boards': {
-            board_id: {
-                'name': 'My Board',
-                'tasks': {}
-            }
-        }
-    }
+    data = {'boards': {board_id: {'name': 'My Board', 'tasks': {}}}}
     with NamedTemporaryFile(mode='w', delete=False) as temp_file:
         storage = JsonStorage(file_path=temp_file.name)
     storage.write(data)
@@ -185,18 +141,9 @@ def test_board_controller_edit_should_update_board_name():
 def test_board_controller_get_board_by_id_should_return_board_from_storage():
     mocked_storage = MagicMock()
     board_id = '1'
-    mocked_data = {
-        'boards': {
-            board_id: {
-                'name': 'My Board',
-                'tasks': {}
-            }
-        }
-    }
+    mocked_data = {'boards': {board_id: {'name': 'My Board', 'tasks': {}}}}
     mocked_storage.read.return_value = mocked_data
-    board = BoardController.get_board_by_id(
-        mocked_storage, board_id
-    )
+    board = BoardController.get_board_by_id(mocked_storage, board_id)
 
     assert board.to_dict() == mocked_data['boards']
 
@@ -204,15 +151,10 @@ def test_board_controller_get_board_by_id_should_return_board_from_storage():
 def test_task_controller_create_should_return_task():
     board_id = '1'
     data = {
-        'boards': {
-            board_id: {
-                'name': 'My Board',
-                'tasks': {}
-            }
-        },
+        'boards': {board_id: {'name': 'My Board', 'tasks': {}}},
         'last_board_id': int(board_id),
         'last_task_id': None,
-        'tasks_index': {}
+        'tasks_index': {},
     }
     with NamedTemporaryFile(mode='w', delete=False) as temp_file:
         storage = JsonStorage(file_path=temp_file.name)
@@ -234,28 +176,19 @@ def test_task_controller_get_task_by_id_should_return_board_from_storage():
     mocked_storage = MagicMock()
     task_id = '1'
     mocked_task_data = {
-        task_id: {
-            'description': 'Task 1',
-            'priority': 5,
-            'status': 1
-        }
+        task_id: {'description': 'Task 1', 'priority': 5, 'status': 1}
     }
     board_id = '1'
     mocked_storage.read.return_value = {
         'boards': {
-            board_id: {
-                'name': 'My Board',
-                'tasks': {**mocked_task_data}
-            }
+            board_id: {'name': 'My Board', 'tasks': {**mocked_task_data}}
         },
         'last_board_id': int(board_id),
         'last_task_id': int(task_id),
-        'tasks_index': {task_id: {"board_id": board_id}}
+        'tasks_index': {task_id: {"board_id": board_id}},
     }
 
-    task = TaskController.get_task_by_id(
-        mocked_storage, task_id
-    )
+    task = TaskController.get_task_by_id(mocked_storage, task_id)
 
     assert task.to_dict() == mocked_task_data
 
@@ -263,23 +196,16 @@ def test_task_controller_get_task_by_id_should_return_board_from_storage():
 def test_task_controller_edit_should_update_task_description():
     task_id = '1'
     mocked_task_data = {
-        task_id: {
-            'description': 'Task 1',
-            'priority': 5,
-            'status': 1
-        }
+        task_id: {'description': 'Task 1', 'priority': 5, 'status': 1}
     }
     board_id = '1'
     data = {
         'boards': {
-            board_id: {
-                'name': 'My Board',
-                'tasks': {**mocked_task_data}
-            }
+            board_id: {'name': 'My Board', 'tasks': {**mocked_task_data}}
         },
         'last_board_id': int(board_id),
         'last_task_id': int(task_id),
-        'tasks_index': {task_id: {"board_id": board_id}}
+        'tasks_index': {task_id: {"board_id": board_id}},
     }
     with NamedTemporaryFile(mode='w', delete=False) as temp_file:
         storage = JsonStorage(file_path=temp_file.name)
@@ -291,26 +217,47 @@ def test_task_controller_edit_should_update_task_description():
     assert task.description == new_task_description
 
 
-def test_task_controller_delete_should_remove_task_from_storage():
+def test_task_controller_edit_priority_should_raise_validation_error():
     task_id = '1'
     mocked_task_data = {
-        task_id: {
-            'description': 'Task 1',
-            'priority': 5,
-            'status': 1
-        }
+        task_id: {'description': 'Task 1', 'priority': 5, 'status': 1}
     }
     board_id = '1'
     data = {
         'boards': {
-            board_id: {
-                'name': 'My Board',
-                'tasks': {**mocked_task_data}
-            }
+            board_id: {'name': 'My Board', 'tasks': {**mocked_task_data}}
         },
         'last_board_id': int(board_id),
         'last_task_id': int(task_id),
-        'tasks_index': {task_id: {"board_id": board_id}}
+        'tasks_index': {task_id: {"board_id": board_id}},
+    }
+    with NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        storage = JsonStorage(file_path=temp_file.name)
+    storage.write(data)
+    task_controller = TaskController(storage=storage)
+    invalid_priority = 10
+    with pytest.raises(ValidationError) as exception_mock:
+        task_controller.edit(task_id, priority=invalid_priority)
+
+    assert str(exception_mock.value) == (
+        f'{invalid_priority} is invalid value for priority must be in the '
+        'range of 1 to 5.'
+    )
+
+
+def test_task_controller_delete_should_remove_task_from_storage():
+    task_id = '1'
+    mocked_task_data = {
+        task_id: {'description': 'Task 1', 'priority': 5, 'status': 1}
+    }
+    board_id = '1'
+    data = {
+        'boards': {
+            board_id: {'name': 'My Board', 'tasks': {**mocked_task_data}}
+        },
+        'last_board_id': int(board_id),
+        'last_task_id': int(task_id),
+        'tasks_index': {task_id: {"board_id": board_id}},
     }
     with NamedTemporaryFile(mode='w', delete=False) as temp_file:
         storage = JsonStorage(file_path=temp_file.name)
@@ -338,16 +285,16 @@ def test_task_controller_delete_should_remove_task_from_storage():
                             '1': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
+                                'status': 1,
                             }
-                        }
+                        },
                     }
                 },
                 'last_task_id': 1,
-                'tasks_index': {'1': {'board_id': '1'}}
+                'tasks_index': {'1': {'board_id': '1'}},
             },
             '1',
-            None
+            None,
         ),
         (
             {
@@ -358,25 +305,22 @@ def test_task_controller_delete_should_remove_task_from_storage():
                             '1': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
+                                'status': 1,
                             },
                             '2': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
-                            }
-                        }
+                                'status': 1,
+                            },
+                        },
                     },
-                    '2': {
-                        'name': 'Meetings',
-                        'tasks': {}
-                    }
+                    '2': {'name': 'Meetings', 'tasks': {}},
                 },
                 'last_task_id': 2,
-                'tasks_index': {'1': {'board_id': '1'}, '2': {'board_id': '1'}}
+                'tasks_index': {'1': {'board_id': '1'}, '2': {'board_id': '1'}},
             },
             '1',
-            2
+            2,
         ),
         (
             {
@@ -387,25 +331,22 @@ def test_task_controller_delete_should_remove_task_from_storage():
                             '1': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
+                                'status': 1,
                             },
                             '2': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
-                            }
-                        }
+                                'status': 1,
+                            },
+                        },
                     },
-                    '2': {
-                        'name': 'Meetings',
-                        'tasks': {}
-                    }
+                    '2': {'name': 'Meetings', 'tasks': {}},
                 },
                 'last_task_id': 2,
-                'tasks_index': {'1': {'board_id': '1'}, '2': {'board_id': '1'}}
+                'tasks_index': {'1': {'board_id': '1'}, '2': {'board_id': '1'}},
             },
             '2',
-            1
+            1,
         ),
         (
             {
@@ -416,14 +357,14 @@ def test_task_controller_delete_should_remove_task_from_storage():
                             '1': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
+                                'status': 1,
                             },
                             '3': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
-                            }
-                        }
+                                'status': 1,
+                            },
+                        },
                     },
                     '2': {
                         'name': 'Meetings',
@@ -431,20 +372,20 @@ def test_task_controller_delete_should_remove_task_from_storage():
                             '2': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
+                                'status': 1,
                             }
-                        }
-                    }
+                        },
+                    },
                 },
                 'last_task_id': 3,
                 'tasks_index': {
                     '1': {'board_id': '1'},
                     '2': {'board_id': '2'},
-                    '3': {'board_id': '1'}
-                }
+                    '3': {'board_id': '1'},
+                },
             },
             '2',
-            3
+            3,
         ),
         (
             {
@@ -455,14 +396,14 @@ def test_task_controller_delete_should_remove_task_from_storage():
                             '1': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
+                                'status': 1,
                             },
                             '3': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
-                            }
-                        }
+                                'status': 1,
+                            },
+                        },
                     },
                     '2': {
                         'name': 'Meetings',
@@ -470,28 +411,26 @@ def test_task_controller_delete_should_remove_task_from_storage():
                             '2': {
                                 'description': 'Task 1',
                                 'priority': 5,
-                                'status': 1
+                                'status': 1,
                             }
-                        }
-                    }
+                        },
+                    },
                 },
                 'last_task_id': 3,
                 'tasks_index': {
                     '1': {'board_id': '1'},
                     '2': {'board_id': '2'},
-                    '3': {'board_id': '1'}
-                }
+                    '3': {'board_id': '1'},
+                },
             },
             '3',
-            2
+            2,
         ),
-    ]
+    ],
 )
 def test_task_delete_should_delete_it_from_index_and_update_last_task_id_value(
-        data,
-        task_id_to_delete,
-        expected_last_task_id
-    ):
+    data, task_id_to_delete, expected_last_task_id
+):
     with NamedTemporaryFile(mode='w', delete=False) as temp_file:
         storage = JsonStorage(file_path=temp_file.name)
     storage.write(data)

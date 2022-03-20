@@ -1,8 +1,10 @@
 """The controllers module contains the board and task controllers classes."""
 from typing import Any
 
+from just_do_it_cli.exceptions import ValidationError
 from just_do_it_cli.helpers import get_tasks
 from just_do_it_cli.models import Board, Task
+from just_do_it_cli.storage import JsonStorage
 
 
 class BoardController:
@@ -10,7 +12,7 @@ class BoardController:
 
     model = Board
 
-    def __init__(self, storage: Any) -> None:
+    def __init__(self, storage: JsonStorage) -> None:
         """
         Board controller constructor.
 
@@ -21,7 +23,7 @@ class BoardController:
         self.storage = storage
 
     @classmethod
-    def get_board_by_id(cls, storage: Any, board_id: str) -> Any:
+    def get_board_by_id(cls, storage: JsonStorage, board_id: str) -> Board:
         """
         Fetch board from the storage.
 
@@ -40,7 +42,7 @@ class BoardController:
         data = storage.read()
         return cls.model(id=board_id, **data['boards'][str(board_id)])
 
-    def create(self, name: str) -> Any:
+    def create(self, name: str) -> Board:
         """
         Take a board name and return a board model instance.
 
@@ -67,7 +69,7 @@ class BoardController:
         self.storage.write(data)
         return board
 
-    def edit(self, board_id: str, name: str) -> Any:
+    def edit(self, board_id: str, name: str) -> Board:
         """
         Take board name and ID and return updated board model instance.
 
@@ -113,7 +115,7 @@ class TaskController:
 
     model = Task
 
-    def __init__(self, storage: Any) -> None:
+    def __init__(self, storage: JsonStorage) -> None:
         """
         Task controller constructor.
 
@@ -124,7 +126,7 @@ class TaskController:
         self.storage = storage
 
     @classmethod
-    def get_task_by_id(cls, storage: Any, task_id: str) -> Any:
+    def get_task_by_id(cls, storage: JsonStorage, task_id: str) -> Task:
         """
         Fetch task from storage.
 
@@ -145,7 +147,7 @@ class TaskController:
         task = cls.model(id=task_id, board_id=board_id, **task_data)
         return task
 
-    def create(self, board_id: str, description: str) -> Any:
+    def create(self, board_id: str, description: str) -> Task:
         """
         Take board ID and task description and return task model instance.
 
@@ -201,6 +203,10 @@ class TaskController:
         Returns
         -------
             A task model instance.
+
+        Raises
+        ------
+            ValidationError
         """
         task = self.get_task_by_id(self.storage, task_id)
 
@@ -209,7 +215,10 @@ class TaskController:
         elif status is not None:
             task.status = status
         else:
-            task.priority = priority
+            try:
+                task.priority = priority
+            except ValueError as e:
+                raise ValidationError(value=priority, message=str(e)) from e
         data = self.storage.read()
         data['boards'][task.board_id]['tasks'].update(task.to_dict())
         self.storage.write(data)

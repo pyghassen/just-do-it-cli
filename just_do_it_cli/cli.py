@@ -3,6 +3,7 @@ import click
 
 from just_do_it_cli.config import PRIORIY_ICONS_MAP, STORAGE_FILE_PATH, Status
 from just_do_it_cli.controllers import BoardController, TaskController
+from just_do_it_cli.exceptions import ValidationError
 from just_do_it_cli.helpers import (
     # APIClient,
     get_board_suffix,
@@ -216,6 +217,13 @@ def priority(task_id: str, priority: str):  # pylint: disable=W0621
     storage = JsonStorage(file_path=STORAGE_FILE_PATH)
     task = TaskController.get_task_by_id(storage, task_id)
     task_controller = TaskController(storage)
-    task_controller.edit(task_id, priority=int(priority))
-    message = f'Task #{task_id}. "{task.description}" priority was updated'
-    click.secho(message, bold=True, fg='green')
+
+    try:
+        task_controller.edit(task_id, priority=int(priority))
+        message = f'Task #{task_id}. "{task.description}" priority was updated'
+        foreground_color = 'green'
+    except ValidationError as e:
+        message = str(e)
+        foreground_color = 'red'
+
+    click.secho(message, bold=True, fg=foreground_color)
