@@ -19,7 +19,11 @@ env.read_env()
 
 STORAGE_FILE_PATH = env('STORAGE_FILE_PATH')  # => raises error if not set
 
+PRIORITY_VALUES = [1, 2, 3, 4, 5]
+
 PRIORIY_ICONS_MAP = {1: '⛄', 2: '🌧️', 3: '🌊', 4: '🔥', 5: '🌋'}
+
+INVALID_PRIORIY_VALUE_ERROR_MESSAGE = 'priority must be in the range of 1 to 5.'
 
 
 class Status:  # pylint: disable=R0903
@@ -82,3 +86,10 @@ class DoneTaskProperties:  # pylint: disable=R0903
     strikethrough = True
     underline = None
     bold = None
+
+
+STATUS_TASK_PROPERTIES_MAP = {
+    Status.PENDING: PendingTaskProperties,
+    Status.IN_PROGRESS: InProgressTaskProperties,
+    Status.DONE: DoneTaskProperties,
+}

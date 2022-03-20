@@ -1,7 +1,11 @@
 """The models module contains the Board and the Task classes."""
-from typing import Dict
+from typing import Dict, Optional
 
-from just_do_it_cli.config import Status
+from just_do_it_cli.config import (
+    Status,
+    PRIORITY_VALUES,
+    INVALID_PRIORIY_VALUE_ERROR_MESSAGE,
+)
 
 
 class Board:  # pylint: disable=R0903
@@ -64,6 +68,22 @@ class Task:  # pylint: disable=R0903
         self.priority = priority
         self.status = status
         self.board_id = board_id
+
+    @property
+    def priority(self) -> int:
+        """Return the value for priority attribute"""
+        return self._priority
+
+    @priority.setter
+    def priority(self, value: int) -> Optional[None]:
+        """
+        Set the value for the priority attribute or raise
+        `ValueError`
+        """
+        if value in PRIORITY_VALUES:
+            self._priority = value
+        else:
+            raise ValueError(INVALID_PRIORIY_VALUE_ERROR_MESSAGE)
 
     def to_dict(self) -> Dict:
         """Return a dictionary representation of the task instance."""

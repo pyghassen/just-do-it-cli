@@ -21,7 +21,6 @@ def setup_function(function):  # pylint: disable=W0613
             # "secret": "6cf9ec924b9c51d409e39ebae4de378cb544240e",
             # "is_connected": True
         }
-
     )
 
 
@@ -156,6 +155,26 @@ def test_priority_command():
     assert result.output == expected_output
 
 
+def test_priority_command_should_fail():
+    board_name = 'My Board'
+    runner = CliRunner()
+    result = runner.invoke(main, ['create-board', board_name])
+    board_id = '1'
+    description = 'My first task'
+    result = runner.invoke(main, ['create-task', board_id, description])
+    task_id = '1'
+    invalid_priority = '10'
+
+    result = runner.invoke(main, ['priority', task_id, invalid_priority])
+    expected_output = (
+        f'{invalid_priority} is invalid value for priority must be in the '
+        'range of 1 to 5.\n'
+    )
+
+    assert result.exit_code == 0
+    assert result.output == expected_output
+
+
 def test_list_command():
 
     runner = CliRunner()
@@ -175,8 +194,7 @@ def test_list_command():
     result = runner.invoke(main, ['priority', '5', '5'])
 
     result = runner.invoke(main, ['list'])
-    expected_output = (
-'''
+    expected_output = '''
   1. Board 1 [0/2]
 	1. ◻ Task 1⛄
 	2. ◻ Task 2🌧️
@@ -192,7 +210,7 @@ def test_list_command():
   Priority Keys:
     1. Trivial ⛄ · 2. Minor 🌧️ · 3. Major 🌊 · 4. Critical 🔥 · 5. Blocker 🌋
 
-''')
+'''
 
     assert result.exit_code == 0
     assert result.output == expected_output
