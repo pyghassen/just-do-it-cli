@@ -1,5 +1,5 @@
 -r test.txt
-ipython==7.31.1
+ipython==8.10.0
 ipdb==0.13.8
 
 requests==2.25.1
