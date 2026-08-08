@@ -1,5 +1,5 @@
 [tool.black]
-target-version = ["py38"]
+target-version = ["py12"]
 skip-string-normalization = true
 line-length = 80
 skip-magic-trailing-comma = true

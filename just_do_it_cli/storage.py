@@ -25,7 +25,7 @@ class JsonStorage:
         -------
             A dictionary contains all the boards data with its tasks data too.
         """
-        with open(self.file_path) as storage_file:
+        with open(self.file_path, encoding='utf-8') as storage_file:
             return json.load(storage_file)
 
     def write(self, data: Dict) -> None:
@@ -37,5 +37,5 @@ class JsonStorage:
             data (dict): A dictionary contains all the boards data with its
                 tasks data too.
         """
-        with open(self.file_path, 'w') as storage_file:
+        with open(self.file_path, 'w', encoding='utf-8') as storage_file:
             json.dump(data, storage_file, indent=4)
