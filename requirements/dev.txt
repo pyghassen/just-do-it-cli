@@ -1,5 +1,4 @@
 -r test.txt
-ipython==7.31.1
-ipdb==0.13.8
-
-requests==2.25.1
+ipython==9.7.0
+ipdb==0.13.13
+requests==2.32.5

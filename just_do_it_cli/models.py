@@ -40,7 +40,7 @@ class Board:  # pylint: disable=R0903
 class Task:  # pylint: disable=R0903
     """Task model class."""
 
-    def __init__(  # pylint: disable=R0913
+    def __init__(  # pylint: disable=R0913,R0917
         self,
         id: str = None,  # pylint: disable=W0622
         description: str = None,
