@@ -10,7 +10,7 @@ requirements = [
 ]
 
 test_requirements = [
-    'pytest==8.4.2',
+    'pytest==9.0.3',
     'pytest-cov==6.3.0',
     'pytest-dotenv==0.5.2',
 ]
