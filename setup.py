@@ -3,12 +3,12 @@
 
 from setuptools import find_packages, setup
 
-requirements = ['Click==8.0.0', 'colorama==0.4.4', 'environs==9.3.2']
+requirements = ['Click>=8.0.0', 'colorama>=0.4.4', 'environs>=9.3.2']
 
 test_requirements = [
-    'pytest==6.2.4',
-    'pytest-cov==2.12.0',
-    'pytest-dotenv==0.5.2',
+    'pytest>=6.2.4',
+    'pytest-cov>=2.12.0',
+    'pytest-dotenv>=0.5.2',
 ]
 
 setup(
