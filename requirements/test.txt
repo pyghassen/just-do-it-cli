@@ -1,5 +1,5 @@
 -r common.txt
-pytest==8.4.2
+pytest==9.1.1
 pytest-cov==6.3.0
 pytest-dotenv==0.5.2
 pylint==3.3.9
