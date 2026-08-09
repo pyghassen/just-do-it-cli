@@ -3,14 +3,12 @@
 ![Created by](https://img.shields.io/badge/Created%20by-Ghassen%20Telmoudi%20%C2%A9-blue)
 ![GitHub](https://img.shields.io/github/license/pyghassen/just-do-it-cli)
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/pyghassen/just-do-it-cli/Just%20Do%20it%20CLI?logo=github)
+![GitHub Workflow Status](https://github.com/pyghassen/just-do-it-cli/actions/workflows/python-package.yml/badge.svg)](https://github.com/pyghassen/just-do-it-cli/actions/workflows/python-package.yml)
+
 [![codecov](https://codecov.io/gh/pyghassen/just-do-it-cli/branch/master/graph/badge.svg?token=8JI1NOE6PO)](https://codecov.io/gh/pyghassen/just-do-it-cli)
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8f988bfd9a184950bc3f681f6130c0e5)](https://www.codacy.com/gh/pyghassen/just-do-it-cli/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pyghassen/just-do-it-cli&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/aa5d2559a2ff5009093d/maintainability)](https://codeclimate.com/github/pyghassen/just-do-it-cli/maintainability)
-![Code Climate issues](https://img.shields.io/codeclimate/issues/pyghassen/just-do-it-cli?logo=codeclimate)
-![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/pyghassen/just-do-it-cli?logo=codeclimate)
-![Lines of code](https://img.shields.io/tokei/lines/github/pyghassen/just-do-it-cli)
 
 ![GitHub issues](https://img.shields.io/github/issues-raw/pyghassen/just-do-it-cli?logo=github)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/pyghassen/just-do-it-cli?logo=github)
