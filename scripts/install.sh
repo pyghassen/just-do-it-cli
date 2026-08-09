@@ -23,8 +23,9 @@ else
     INSTALL_PYTHON=$JUST_DO_IT_VENV/bin/python
 fi
 echo "STORAGE_FILE_PATH='$STORAGE_FILE_PATH'" > "$ENV_FILE_PATH"
-FIXTURES='{"boards": {}, "boards_index": {}, "tasks_index": {}, "last_board_id": null, "last_task_id": null}'
-echo $FIXTURES > $STORAGE_FILE_PATH
+printf '%s\n' \
+  '{"boards": {}, "boards_index": {}, "tasks_index": {}, "last_board_id": null, "last_task_id": null}' \
+  > "$STORAGE_FILE_PATH"
 echo "Installing requirements"
 if [ "$ENV" = "CI" ]; then
     INSTALL_PYTHON=python3
@@ -37,8 +38,9 @@ if [ "$ENV" != "CI" ]; then
     printf '#!/bin/sh\nexec "%s/bin/justdoit" "$@"\n' "$JUST_DO_IT_VENV" \
       > "$HOME/.local/bin/justdoit"
     chmod +x "$HOME/.local/bin/justdoit"
-    if ! grep -Fq 'export PATH="$HOME/.local/bin:$PATH"' "$HOME/.bashrc"; then
-      printf '\n# Just Do It CLI\nexport PATH="$HOME/.local/bin:$PATH"\n' >> "$HOME/.bashrc"
+    if ! grep -Fq "export PATH=\"$HOME/.local/bin:$PATH\"" "$HOME/.bashrc"; then
+      printf '\n# Just Do It CLI\nexport PATH="%s:%s"\n' \
+        "$HOME/.local/bin" "\$PATH" >> "$HOME/.bashrc"
     fi
     export PATH="$HOME/.local/bin:$PATH"
 fi
@@ -48,8 +50,10 @@ if [ "$ENV" != "CI" ]; then
     mkdir -p "$HOME/.local/share/bash-completion/completions"
     _JUSTDOIT_COMPLETE=bash_source "$JUSTDOIT_COMMAND" \
       > "$HOME/.local/share/bash-completion/completions/justdoit"
-    if ! grep -Fq 'source "$HOME/.local/share/bash-completion/completions/justdoit"' "$HOME/.bashrc"; then
-      printf '\n# Just Do It CLI completion\nsource "$HOME/.local/share/bash-completion/completions/justdoit"\n' >> "$HOME/.bashrc"
+    if ! grep -Fq "source \"$HOME/.local/share/bash-completion/completions/justdoit\"" "$HOME/.bashrc"; then
+      printf '\n# Just Do It CLI completion\nsource "%s"\n' \
+        "$HOME/.local/share/bash-completion/completions/justdoit" \
+        >> "$HOME/.bashrc"
     fi
 
     mkdir -p "$HOME/.local/share/zsh/site-functions"

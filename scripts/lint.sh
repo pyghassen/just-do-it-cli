@@ -6,6 +6,9 @@ echo "Running pylint .."
 # isort --check-only app
 pylint just_do_it_cli
 
+echo "Running shellcheck .."
+shellcheck scripts/*.sh
+
 if [ "$ENV" = "CI" ]
 then
   echo "Running codecov .."
