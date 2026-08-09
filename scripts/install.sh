@@ -43,16 +43,18 @@ if [ "$ENV" != "CI" ]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 JUSTDOIT_COMMAND=$(command -v justdoit)
-echo "Installing shell completion"
-mkdir -p "$HOME/.local/share/bash-completion/completions"
-_JUSTDOIT_COMPLETE=bash_source "$JUSTDOIT_COMMAND" \
-  > "$HOME/.local/share/bash-completion/completions/justdoit"
-if ! grep -Fq 'source "$HOME/.local/share/bash-completion/completions/justdoit"' "$HOME/.bashrc"; then
-  printf '\n# Just Do It CLI completion\nsource "$HOME/.local/share/bash-completion/completions/justdoit"\n' >> "$HOME/.bashrc"
-fi
+if [ "$ENV" != "CI" ]; then
+    echo "Installing shell completion"
+    mkdir -p "$HOME/.local/share/bash-completion/completions"
+    _JUSTDOIT_COMPLETE=bash_source "$JUSTDOIT_COMMAND" \
+      > "$HOME/.local/share/bash-completion/completions/justdoit"
+    if ! grep -Fq 'source "$HOME/.local/share/bash-completion/completions/justdoit"' "$HOME/.bashrc"; then
+      printf '\n# Just Do It CLI completion\nsource "$HOME/.local/share/bash-completion/completions/justdoit"\n' >> "$HOME/.bashrc"
+    fi
 
-mkdir -p "$HOME/.local/share/zsh/site-functions"
-_JUSTDOIT_COMPLETE=zsh_source "$JUSTDOIT_COMMAND" \
-  > "$HOME/.local/share/zsh/site-functions/_justdoit"
+    mkdir -p "$HOME/.local/share/zsh/site-functions"
+    _JUSTDOIT_COMPLETE=zsh_source "$JUSTDOIT_COMMAND" \
+      > "$HOME/.local/share/zsh/site-functions/_justdoit"
+fi
 echo "Before you start you need to run 'source ~/.bashrc' so ~/.local/bin' is added to the system path."
 echo "Installtion is done now, please type 'justdoit --help' to start, but "
