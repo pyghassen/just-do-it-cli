@@ -53,6 +53,12 @@ Run the installation command
 
     make install
 
+The installer creates an isolated runtime environment under
+`~/.just-do-it-cli/venv` and adds the `justdoit` command to `~/.local/bin`.
+Open a new terminal after installation, or reload Bash with:
+
+    source ~/.bashrc
+
 ## Usage
 
 First you need to create a board and then create some tasks inside that board,
@@ -77,3 +83,22 @@ help message:
       edit-task     Edit task.
       list          List all boards and tasks.
       priority      Set task priority from 1 to 5.
+
+### Shell completion
+
+The installation script installs completion for Bash and Zsh. Restart your
+shell, or reload the completion configuration manually:
+
+    # Bash
+    source ~/.local/share/bash-completion/completions/justdoit
+
+    # Zsh
+    autoload -U compinit && compinit
+
+You can now type part of a command and press `Tab`, for example:
+
+    justdoit cre<Tab>
+
+For a temporary Bash setup without reinstalling the project, run:
+
+    eval "$(_JUSTDOIT_COMPLETE=bash_source justdoit)"
